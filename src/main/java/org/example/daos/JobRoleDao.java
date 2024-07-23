@@ -1,7 +1,7 @@
 package org.example.daos;
 
-import models.JobRole;
-import models.JobRoleResponse;
+import org.example.exception.DatabaseConnectionException;
+import org.example.models.JobRole;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -11,7 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JobRoleDao {
-    public List<String> testConnection() throws SQLException {
+    public List<String> testConnection() throws SQLException,
+            DatabaseConnectionException {
         List<String> databases = new ArrayList<>();
 
         try (Connection connection = DatabaseConnector.getConnection()) {
@@ -28,7 +29,7 @@ public class JobRoleDao {
         return databases;
     }
 
-    public List<JobRole> getListOpenJobRoles() throws SQLException {
+    public List<JobRole> getJobRoles() throws SQLException {
         List<JobRole> jobRoles = new ArrayList<>();
 
         try (Connection connection = DatabaseConnector.getConnection()) {

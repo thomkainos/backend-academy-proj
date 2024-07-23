@@ -1,11 +1,14 @@
 package org.example.services;
 
-import models.JobRoleResponse;
+import org.example.exception.DatabaseConnectionException;
+import org.example.models.JobRoleResponse;
 import org.example.daos.JobRoleDao;
 import org.example.mappers.JobRoleMapper;
 
 import java.sql.SQLException;
 import java.util.List;
+
+
 
 public class JobRoleService {
     JobRoleDao jobRoleDao;
@@ -14,8 +17,9 @@ public class JobRoleService {
         this.jobRoleDao = jobRoleDao;
     }
 
-    public List<JobRoleResponse> getAllOpenJobRolesRoles() throws SQLException {
+    public List<JobRoleResponse> getAllOpenJobRoles() throws SQLException,
+            DatabaseConnectionException {
         return JobRoleMapper.mapJobRoleListToJobRoleResponse(
-                jobRoleDao.getListOpenJobRoles());
+                jobRoleDao.getJobRoles());
     }
 }
