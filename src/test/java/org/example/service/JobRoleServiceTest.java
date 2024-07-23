@@ -42,7 +42,6 @@ public class JobRoleServiceTest {
 
         assertThrows(SQLException.class,
                 () -> jobRoleService.getAllOpenJobRoles());
-
     }
 
     @Test

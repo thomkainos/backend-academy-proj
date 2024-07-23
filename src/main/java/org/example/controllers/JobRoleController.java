@@ -23,7 +23,7 @@ public class JobRoleController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getListOpenJobRoles() throws SQLException {
+    public Response getListOpenJobRoles() {
         try {
             return Response.ok().entity(jobRoleService.getAllOpenJobRoles()).build();
         } catch (SQLException | DatabaseConnectionException e) {
