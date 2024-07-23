@@ -29,7 +29,7 @@ public class JobRoleDao {
         return databases;
     }
 
-    public List<JobRole> getJobRoles() throws SQLException {
+    public List<JobRole> getJobRoles() throws SQLException, DatabaseConnectionException {
         List<JobRole> jobRoles = new ArrayList<>();
 
         try (Connection connection = DatabaseConnector.getConnection()) {
