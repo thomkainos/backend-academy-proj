@@ -167,7 +167,7 @@
   </dependencyManagement>
   <properties>
     <dropwizard.version>2.0.3</dropwizard.version>
-    <mainClass>org.example.TestApplication</mainClass>
+    <mainClass>org.example.JobRoleManagerApplication</mainClass>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
