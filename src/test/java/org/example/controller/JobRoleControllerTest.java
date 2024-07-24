@@ -2,6 +2,8 @@ package org.example.controller;
 
 import org.example.controllers.JobRoleController;
 import org.example.exception.DatabaseConnectionException;
+import org.example.exception.JobRoleDaoException;
+import org.example.exception.SqlException;
 import org.example.models.JobRoleResponse;
 import org.example.services.JobRoleService;
 import org.junit.jupiter.api.Test;
@@ -22,7 +24,7 @@ public class JobRoleControllerTest {
 
     @Test
     void getListOpenJobRoles_shouldReturnListOfJobRoleResponseInResponse_whenServiceReturnsListOfJobRoleResponse()
-            throws DatabaseConnectionException, SQLException {
+            throws JobRoleDaoException {
         List<JobRoleResponse> jobRoleResponses = new ArrayList<>();
 
         when(jobRoleService.getAllOpenJobRoles()).thenReturn(jobRoleResponses);
@@ -35,8 +37,8 @@ public class JobRoleControllerTest {
 
     @Test
     void getListOpenJobRoles_shouldReturn500StatusCode_whenServiceThrowsSqlException()
-            throws DatabaseConnectionException, SQLException {
-        when(jobRoleService.getAllOpenJobRoles()).thenThrow(SQLException.class);
+            throws JobRoleDaoException {
+        when(jobRoleService.getAllOpenJobRoles()).thenThrow(SqlException.class);
 
         Response response = jobRoleController.getListOpenJobRoles();
 
@@ -45,7 +47,7 @@ public class JobRoleControllerTest {
 
     @Test
     void getListOpenJobRoles_shouldReturn500StatusCode_whenServiceThrowsDatabaseConnectionException()
-            throws DatabaseConnectionException, SQLException {
+            throws JobRoleDaoException {
         when(jobRoleService.getAllOpenJobRoles()).thenThrow(DatabaseConnectionException.class);
 
         Response response = jobRoleController.getListOpenJobRoles();

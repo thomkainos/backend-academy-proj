@@ -6,7 +6,8 @@ import io.dropwizard.setup.Environment;
 import io.federecio.dropwizard.swagger.SwaggerBundle;
 import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
 import org.example.controllers.JobRoleController;
-import org.example.daos.JobRoleDao;
+import org.example.utils.DatabaseConnector;
+import org.example.daos.MySqlJobRoleDao;
 import org.example.services.JobRoleService;
 
 public class JobRoleManagerApplication extends Application<JobRoleManagerConfiguration> {
@@ -32,8 +33,10 @@ public class JobRoleManagerApplication extends Application<JobRoleManagerConfigu
     @Override
     public void run(final JobRoleManagerConfiguration configuration,
                     final Environment environment) {
+        DatabaseConnector databaseConnector = new DatabaseConnector();
         environment.jersey()
-                .register(new JobRoleController(new JobRoleService(new JobRoleDao())));
+                // Add mechanism to pass in appropriate Dao class
+                .register(new JobRoleController(new JobRoleService(new MySqlJobRoleDao(databaseConnector))));
     }
 
 }

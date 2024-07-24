@@ -1,4 +1,4 @@
-package org.example.daos;
+package org.example.utils;
 
 import org.example.exception.DatabaseConnectionException;
 
@@ -8,8 +8,9 @@ import java.sql.SQLException;
 
 public final class DatabaseConnector {
     private static Connection conn;
-    private DatabaseConnector() { }
-    public static Connection getConnection() throws SQLException {
+
+    public Connection getConnection()
+            throws SQLException, DatabaseConnectionException {
 
         if (conn != null && !conn.isClosed()) {
             return conn;
@@ -32,9 +33,7 @@ public final class DatabaseConnector {
             return conn;
 
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            throw new DatabaseConnectionException(e.getMessage());
         }
-
-        return null;
     }
 }

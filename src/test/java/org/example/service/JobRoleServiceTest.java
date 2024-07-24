@@ -1,7 +1,9 @@
 package org.example.service;
 
-import org.example.daos.JobRoleDao;
+import org.example.daos.interfaces.JobRoleDao;
 import org.example.exception.DatabaseConnectionException;
+import org.example.exception.JobRoleDaoException;
+import org.example.exception.SqlException;
 import org.example.models.JobRole;
 import org.example.models.JobRoleResponse;
 import org.example.services.JobRoleService;
@@ -26,7 +28,7 @@ public class JobRoleServiceTest {
 
     @Test
     void getAllOpenJobRoles_shouldReturnListOfJobRoleResponses_whenDaoReturnsListOfJobRoles () throws
-            SQLException, DatabaseConnectionException {
+            JobRoleDaoException {
         List<JobRole> jobRoles = new ArrayList();
         List<JobRoleResponse> jobRoleResponses = new ArrayList();
 
@@ -37,16 +39,16 @@ public class JobRoleServiceTest {
 
     @Test
     void getAllOpenJobRoles_shouldThrowSqlException_whenDaoThrowsSqlException ()
-            throws SQLException, DatabaseConnectionException {
-        Mockito.when(jobRoleDao.getJobRoles()).thenThrow(SQLException.class);
+            throws JobRoleDaoException {
+        Mockito.when(jobRoleDao.getJobRoles()).thenThrow(SqlException.class);
 
-        assertThrows(SQLException.class,
+        assertThrows(SqlException.class,
                 () -> jobRoleService.getAllOpenJobRoles());
     }
 
     @Test
     void getAllOpenJobRoles_shouldThrowDatabaseConnectionException_whenDaoThrowsDatabaseConnectionException ()
-            throws SQLException, DatabaseConnectionException {
+            throws JobRoleDaoException {
         Mockito.when(jobRoleDao.getJobRoles()).thenThrow(DatabaseConnectionException.class);
 
         assertThrows(DatabaseConnectionException.class,

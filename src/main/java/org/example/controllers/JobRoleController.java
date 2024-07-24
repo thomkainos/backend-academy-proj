@@ -2,6 +2,8 @@ package org.example.controllers;
 
 import io.swagger.annotations.Api;
 import org.example.exception.DatabaseConnectionException;
+import org.example.exception.JobRoleDaoException;
+import org.example.exception.SqlException;
 import org.example.services.JobRoleService;
 
 import javax.ws.rs.GET;
@@ -26,7 +28,7 @@ public class JobRoleController {
     public Response getListOpenJobRoles() {
         try {
             return Response.ok().entity(jobRoleService.getAllOpenJobRoles()).build();
-        } catch (SQLException | DatabaseConnectionException e) {
+        } catch (JobRoleDaoException e) {
             return Response.serverError().build();
         }
     }
