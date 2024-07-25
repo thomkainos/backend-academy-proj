@@ -36,4 +36,8 @@ public final class DatabaseConnector {
             throw new DatabaseConnectionException(e.getMessage());
         }
     }
+
+    public static void setConn(Connection conn) {
+        DatabaseConnector.conn = conn;
+    }
 }
