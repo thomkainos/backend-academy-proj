@@ -1,9 +1,7 @@
 package org.example.controllers;
 
 import io.swagger.annotations.Api;
-import org.example.exception.DatabaseConnectionException;
 import org.example.exception.JobRoleDaoException;
-import org.example.exception.SqlException;
 import org.example.services.JobRoleService;
 
 import javax.ws.rs.GET;
@@ -11,8 +9,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.xml.crypto.Data;
-import java.sql.SQLException;
 
 @Api("Kainos Job Role Manager API")
 @Path("/api/job-roles")

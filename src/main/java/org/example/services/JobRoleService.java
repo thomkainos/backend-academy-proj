@@ -1,6 +1,5 @@
 package org.example.services;
 
-import org.example.exception.DatabaseConnectionException;
 import org.example.exception.JobRoleDaoException;
 import org.example.models.JobRoleResponse;
 import org.example.daos.interfaces.JobRoleDao;
