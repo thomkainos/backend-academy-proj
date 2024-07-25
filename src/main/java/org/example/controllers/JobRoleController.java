@@ -27,7 +27,10 @@ public class JobRoleController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getListOpenJobRoles() {
         try {
-            return Response.ok().entity(jobRoleService.getAllOpenJobRoles()).build();
+            return Response
+                    .ok()
+                    .entity(jobRoleService.getAllOpenJobRoles())
+                    .build();
         } catch (JobRoleDaoException e) {
             return Response.serverError().build();
         }

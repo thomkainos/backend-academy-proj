@@ -1,7 +1,7 @@
 package org.example.exception;
 
 public class DatabaseConnectionException extends JobRoleDaoException {
-    public DatabaseConnectionException(String errorMessage) {
+    public DatabaseConnectionException(final String errorMessage) {
         super(errorMessage);
     }
 }

@@ -32,8 +32,6 @@ public class JobRoleServiceTest {
         List<JobRole> jobRoles = new ArrayList();
         List<JobRoleResponse> jobRoleResponses = new ArrayList();
 
-        Mockito.when(jobRoleDao.getJobRoles()).thenReturn(jobRoles);
-
         assertEquals(jobRoleResponses, jobRoleService.getAllOpenJobRoles());
     }
 

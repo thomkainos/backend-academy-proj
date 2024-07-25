@@ -6,7 +6,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public final class DatabaseConnector {
+public class DatabaseConnector {
     private static Connection conn;
 
     public Connection getConnection()
@@ -37,7 +37,7 @@ public final class DatabaseConnector {
         }
     }
 
-    public static void setConn(Connection conn) {
+    public static void setConn(final Connection conn) {
         DatabaseConnector.conn = conn;
     }
 }

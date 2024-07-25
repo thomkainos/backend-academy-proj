@@ -10,7 +10,8 @@ import org.example.utils.DatabaseConnector;
 import org.example.daos.MySqlJobRoleDao;
 import org.example.services.JobRoleService;
 
-public class JobRoleManagerApplication extends Application<JobRoleManagerConfiguration> {
+public class JobRoleManagerApplication extends
+        Application<JobRoleManagerConfiguration> {
     public static void main(final String[] args) throws Exception {
         new JobRoleManagerApplication().run(args);
     }
@@ -21,7 +22,8 @@ public class JobRoleManagerApplication extends Application<JobRoleManagerConfigu
     }
 
     @Override
-    public void initialize(final Bootstrap<JobRoleManagerConfiguration> bootstrap) {
+    public void initialize(
+            final Bootstrap<JobRoleManagerConfiguration> bootstrap) {
         bootstrap.addBundle(new SwaggerBundle<>() {
             @Override
             protected SwaggerBundleConfiguration getSwaggerBundleConfiguration(
@@ -36,7 +38,9 @@ public class JobRoleManagerApplication extends Application<JobRoleManagerConfigu
         DatabaseConnector databaseConnector = new DatabaseConnector();
         environment.jersey()
                 // Add mechanism to pass in appropriate Dao class
-                .register(new JobRoleController(new JobRoleService(new MySqlJobRoleDao(databaseConnector))));
+                .register(new JobRoleController(
+                        new JobRoleService(
+                                new MySqlJobRoleDao(databaseConnector))));
     }
 
 }

@@ -6,7 +6,9 @@ import org.example.models.JobRoleResponse;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class JobRoleMapper {
+public final class JobRoleMapper {
+    private JobRoleMapper() { }
+
     public static List<JobRoleResponse> mapJobRoleListToJobRoleResponse(
             final List<JobRole> jobRoles) {
         return jobRoles.stream()
