@@ -29,4 +29,9 @@ public class JobRoleManagerIntegrationTest {
 
         Assertions.assertFalse(response.isEmpty());
     }
+
+    @Test
+    void getListOpenJobRoles_shouldReturnErrorCode500_whenThereIsServerError() {
+
+    }
 }
