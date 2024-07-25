@@ -41,7 +41,7 @@ DB_NAME - the prod db name
 3. After approvals, merge pull request; this will trigger the migration action to run in Github
 4. Ensure migration successfully runs against prod database
 
-How to start the test application
+How to start the application
 ---
 
 1. Set the following environment variables:
@@ -53,7 +53,7 @@ How to start the test application
 1. You can start application via:
     1. Terminal: `java -jar target/java-swagger-flyway-starter-org.kainos.ea.jar server config.yml`
     2. IDE: Edit run configuration -> Add `server` to program arguments -> Run
-1. To check that your application is running enter url `http://localhost:8080/api/test`
+1. To check that your application is running enter url `http://localhost:8080/api/job-roles`
 
 Health Check
 ---

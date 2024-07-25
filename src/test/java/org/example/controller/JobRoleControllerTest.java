@@ -9,7 +9,6 @@ import org.example.services.JobRoleService;
 import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.core.Response;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 

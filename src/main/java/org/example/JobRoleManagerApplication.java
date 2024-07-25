@@ -17,11 +17,6 @@ public class JobRoleManagerApplication extends
     }
 
     @Override
-    public String getName() {
-        return "Test";
-    }
-
-    @Override
     public void initialize(
             final Bootstrap<JobRoleManagerConfiguration> bootstrap) {
         bootstrap.addBundle(new SwaggerBundle<>() {
@@ -37,10 +32,8 @@ public class JobRoleManagerApplication extends
                     final Environment environment) {
         DatabaseConnector databaseConnector = new DatabaseConnector();
         environment.jersey()
-                // Add mechanism to pass in appropriate Dao class
                 .register(new JobRoleController(
                         new JobRoleService(
                                 new MySqlJobRoleDao(databaseConnector))));
     }
-
 }

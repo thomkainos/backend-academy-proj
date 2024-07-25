@@ -57,7 +57,6 @@ public class MySqlJobRoleDao implements JobRoleDao {
             throw new JobRoleDaoException(
                     "DatabaseConnectionException: " + e.getMessage());
         }
-
         return jobRoles;
     }
 }
