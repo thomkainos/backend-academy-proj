@@ -1,10 +1,10 @@
 CREATE TABLE roles
 (
-    role_id      INT PRIMARY KEY,
-    role_name    VARCHAR(255),
-    location     VARCHAR(255),
-    capability   VARCHAR(255),
-    band         VARCHAR(255),
-    closing_date DATE,
-    role_status  INT
+    role_id      int PRIMARY KEY AUTO_INCREMENT,
+    role_name    varchar(150),
+    location     varchar(150),
+    capability   varchar(150),
+    band         varchar(100),
+    closing_date DATETIME,
+    role_status  tinyint default 1
 );
