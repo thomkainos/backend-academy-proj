@@ -60,7 +60,7 @@ public class MySqlJobRoleDaoTest {
 
     @Test
     public void getJobRoles_shouldReturnListOfEmptyList_whenDatabaseReturnsNoRows()
-            throws JobRoleDaoException, Exception {
+            throws Exception {
         List<JobRole> jobRoles = IJobRoleDao.getJobRoles();
         assertNotNull(jobRoles);
         assertEquals(0, jobRoles.size());
