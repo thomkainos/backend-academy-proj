@@ -3,12 +3,12 @@ package org.example.controller;
 import org.example.controllers.JobRoleController;
 import org.example.exception.DatabaseConnectionException;
 import org.example.exception.JobRoleDaoException;
-import org.example.exception.SqlException;
 import org.example.models.JobRoleResponse;
 import org.example.services.JobRoleService;
 import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.core.Response;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,19 +35,9 @@ public class JobRoleControllerTest {
     }
 
     @Test
-    void getListOpenJobRoles_shouldReturn500StatusCode_whenServiceThrowsSqlException()
+    void getListOpenJobRoles_shouldReturn500StatusCode_whenServiceThrowsJobRoleDaoException()
             throws JobRoleDaoException {
-        when(jobRoleService.getAllOpenJobRoles()).thenThrow(SqlException.class);
-
-        Response response = jobRoleController.getListOpenJobRoles();
-
-        assertEquals(500, response.getStatus());
-    }
-
-    @Test
-    void getListOpenJobRoles_shouldReturn500StatusCode_whenServiceThrowsDatabaseConnectionException()
-            throws JobRoleDaoException {
-        when(jobRoleService.getAllOpenJobRoles()).thenThrow(DatabaseConnectionException.class);
+        when(jobRoleService.getAllOpenJobRoles()).thenThrow(JobRoleDaoException.class);
 
         Response response = jobRoleController.getListOpenJobRoles();
 

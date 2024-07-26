@@ -33,7 +33,7 @@ public class DatabaseConnector {
             return conn;
 
         } catch (Exception e) {
-            throw new DatabaseConnectionException(e.getMessage());
+            throw new DatabaseConnectionException(e.getMessage(), e);
         }
     }
 }

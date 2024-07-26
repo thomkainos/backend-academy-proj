@@ -8,15 +8,15 @@ import org.example.mappers.JobRoleMapper;
 import java.util.List;
 
 public class JobRoleService {
-    IJobRoleDao IJobRoleDao;
+    IJobRoleDao jobRoleDao;
 
-    public JobRoleService(final IJobRoleDao IJobRoleDao) {
-        this.IJobRoleDao = IJobRoleDao;
+    public JobRoleService(final IJobRoleDao jobRoleDao) {
+        this.jobRoleDao = jobRoleDao;
     }
 
     public List<JobRoleResponse> getAllOpenJobRoles() throws
             JobRoleDaoException {
         return JobRoleMapper.mapJobRoleListToJobRoleResponse(
-                IJobRoleDao.getJobRoles());
+                jobRoleDao.getJobRoles());
     }
 }

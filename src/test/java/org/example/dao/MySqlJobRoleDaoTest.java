@@ -8,7 +8,7 @@ import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.List;
-import org.example.daos.MySqlIJobRoleDao;
+import org.example.daos.MySqIJobRoleDao;
 import org.example.daos.interfaces.IJobRoleDao;
 import org.example.exception.JobRoleDaoException;
 import org.example.models.JobRole;
@@ -19,7 +19,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-public class MySqlIJobRoleDaoTest {
+public class MySqlJobRoleDaoTest {
     private Connection h2Connection;
     private DatabaseConnector mockDatabaseConnector;
     private IJobRoleDao IJobRoleDao;
@@ -33,7 +33,7 @@ public class MySqlIJobRoleDaoTest {
         mockDatabaseConnector = Mockito.mock(DatabaseConnector.class);
         when(mockDatabaseConnector.getConnection()).thenReturn(h2Connection);
 
-        IJobRoleDao = new MySqlIJobRoleDao(mockDatabaseConnector);
+        IJobRoleDao = new MySqIJobRoleDao(mockDatabaseConnector);
     }
 
     @AfterEach

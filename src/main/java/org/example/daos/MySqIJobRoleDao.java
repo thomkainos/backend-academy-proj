@@ -16,10 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter
-public class MySqlIJobRoleDao implements IJobRoleDao {
+public class MySqIJobRoleDao implements IJobRoleDao {
     private DatabaseConnector databaseConnector;
 
-    public MySqlIJobRoleDao(final DatabaseConnector databaseConnector) {
+    public MySqIJobRoleDao(final DatabaseConnector databaseConnector) {
         this.databaseConnector = databaseConnector;
     }
 
@@ -51,11 +51,12 @@ public class MySqlIJobRoleDao implements IJobRoleDao {
             }
 
         } catch (SQLException e) {
-            throw new JobRoleDaoException("SQLException: " + e.getMessage());
+            throw new JobRoleDaoException("SQLException: " + e.getMessage(), e);
 
         } catch (DatabaseConnectionException e) {
             throw new JobRoleDaoException(
-                    "DatabaseConnectionException: " + e.getMessage());
+                    "DatabaseConnectionException: "
+                            + "unable to connect to database", e);
         }
         return jobRoles;
     }
