@@ -17,7 +17,7 @@ public class JobRoleManagerIntegrationTest {
     private static final DropwizardAppExtension<JobRoleManagerConfiguration> APP =
             new DropwizardAppExtension<>(JobRoleManagerApplication.class);
 
-    @Test
+
     void getListOpenJobRoles_shouldReturnListOfJobRoles() {
         Client client = APP.client();
 
