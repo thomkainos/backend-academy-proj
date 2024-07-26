@@ -1,4 +1,6 @@
-# Java DropWizard Flyway Starter
+# kainos-job-role-manager-backend
+
+# Setting up the Database
 
 Database Migration - Local
 ---
@@ -41,7 +43,8 @@ DB_NAME - the prod db name
 3. After approvals, merge pull request; this will trigger the migration action to run in Github
 4. Ensure migration successfully runs against prod database
 
-How to start the test application
+
+How to start the application
 ---
 
 1. Set the following environment variables:
@@ -51,9 +54,16 @@ How to start the test application
     4. DB_NAME
 1. Run `mvn clean install` to build your application
 1. You can start application via:
-    1. Terminal: `java -jar target/java-swagger-flyway-starter-org.kainos.ea.jar server config.yml`
+    1. Terminal: `java -jar target/java-swagger-flyway-starter-1.0-SNAPSHOT.jar server config.yml`
     2. IDE: Edit run configuration -> Add `server` to program arguments -> Run
-1. To check that your application is running enter url `http://localhost:8080/api/test`
+1. To check that your application is running enter url `http://localhost:8080/api/job-roles`
+
+Testing
+--- 
+To run the unit tests
+1. Run `mvn clean test` to build your application
+
+Note: integration tests are currently disabled since the backend server is currently not running outside of the application
 
 Health Check
 ---

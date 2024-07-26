@@ -7,7 +7,7 @@ import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-public class TestConfiguration extends Configuration {
+public class JobRoleManagerConfiguration extends Configuration {
     @Valid
     @NotNull
     private final SwaggerBundleConfiguration swagger =
