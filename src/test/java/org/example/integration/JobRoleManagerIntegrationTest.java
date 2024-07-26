@@ -7,7 +7,6 @@ import org.example.JobRoleManagerConfiguration;
 import org.example.models.JobRoleResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import javax.ws.rs.client.Client;
