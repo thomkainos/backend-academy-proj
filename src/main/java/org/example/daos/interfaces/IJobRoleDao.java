@@ -5,6 +5,6 @@ import org.example.models.JobRole;
 
 import java.util.List;
 
-public interface JobRoleDao {
+public interface IJobRoleDao {
     List<JobRole> getJobRoles() throws JobRoleDaoException;
 }

@@ -1,10 +1,7 @@
 package org.example.service;
 
-import org.example.daos.interfaces.JobRoleDao;
-import org.example.exception.DatabaseConnectionException;
+import org.example.daos.interfaces.IJobRoleDao;
 import org.example.exception.JobRoleDaoException;
-import org.example.exception.SqlException;
-import org.example.models.JobRole;
 import org.example.models.JobRoleResponse;
 import org.example.services.JobRoleService;
 import org.junit.jupiter.api.Test;
@@ -21,8 +18,8 @@ import static org.mockito.Mockito.mock;
 
 @ExtendWith(MockitoExtension.class)
 public class JobRoleServiceTest {
-    JobRoleDao jobRoleDao = mock(JobRoleDao.class);
-    JobRoleService jobRoleService = new JobRoleService(jobRoleDao);
+    IJobRoleDao IJobRoleDao = mock(IJobRoleDao.class);
+    JobRoleService jobRoleService = new JobRoleService(IJobRoleDao);
 
     @Test
     void getAllOpenJobRoles_shouldReturnListOfJobRoleResponses_whenDaoReturnsListOfJobRoles () throws
@@ -35,7 +32,7 @@ public class JobRoleServiceTest {
     @Test
     void getAllOpenJobRoles_shouldThrowJobRoleDaoException_whenDaoThrowsJobRoleDaoException ()
             throws JobRoleDaoException {
-        Mockito.when(jobRoleDao.getJobRoles()).thenThrow(JobRoleDaoException.class);
+        Mockito.when(IJobRoleDao.getJobRoles()).thenThrow(JobRoleDaoException.class);
 
         assertThrows(JobRoleDaoException.class,
                 () -> jobRoleService.getAllOpenJobRoles());

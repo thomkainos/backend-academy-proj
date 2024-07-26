@@ -2,7 +2,7 @@ package org.example.daos;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.example.daos.interfaces.JobRoleDao;
+import org.example.daos.interfaces.IJobRoleDao;
 import org.example.exception.DatabaseConnectionException;
 import org.example.exception.JobRoleDaoException;
 import org.example.models.JobRole;
@@ -16,10 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter
-public class MySqlJobRoleDao implements JobRoleDao {
+public class MySqlIJobRoleDao implements IJobRoleDao {
     private DatabaseConnector databaseConnector;
 
-    public MySqlJobRoleDao(final DatabaseConnector databaseConnector) {
+    public MySqlIJobRoleDao(final DatabaseConnector databaseConnector) {
         this.databaseConnector = databaseConnector;
     }
 

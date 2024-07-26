@@ -8,8 +8,8 @@ import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.List;
-import org.example.daos.MySqlJobRoleDao;
-import org.example.daos.interfaces.JobRoleDao;
+import org.example.daos.MySqlIJobRoleDao;
+import org.example.daos.interfaces.IJobRoleDao;
 import org.example.exception.JobRoleDaoException;
 import org.example.models.JobRole;
 import org.example.utils.DatabaseConnector;
@@ -19,10 +19,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-public class MySqlJobRoleDaoTest {
+public class MySqlIJobRoleDaoTest {
     private Connection h2Connection;
     private DatabaseConnector mockDatabaseConnector;
-    private JobRoleDao jobRoleDao;
+    private IJobRoleDao IJobRoleDao;
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -33,7 +33,7 @@ public class MySqlJobRoleDaoTest {
         mockDatabaseConnector = Mockito.mock(DatabaseConnector.class);
         when(mockDatabaseConnector.getConnection()).thenReturn(h2Connection);
 
-        jobRoleDao = new MySqlJobRoleDao(mockDatabaseConnector);
+        IJobRoleDao = new MySqlIJobRoleDao(mockDatabaseConnector);
     }
 
     @AfterEach
@@ -43,7 +43,7 @@ public class MySqlJobRoleDaoTest {
 
     @Test
     public void getJobRoles_shouldReturnListOfJobRoles_whenDatabaseReturnsRowsOfJobRoles() throws JobRoleDaoException {
-        List<JobRole> jobRoles = jobRoleDao.getJobRoles();
+        List<JobRole> jobRoles = IJobRoleDao.getJobRoles();
         assertNotNull(jobRoles);
         assertEquals(2, jobRoles.size());
 
