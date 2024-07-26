@@ -1,4 +1,4 @@
-CREATE TABLE roles
+CREATE TABLE IF NOT EXISTS roles
 (
     role_id      int PRIMARY KEY AUTO_INCREMENT,
     role_name    varchar(150),

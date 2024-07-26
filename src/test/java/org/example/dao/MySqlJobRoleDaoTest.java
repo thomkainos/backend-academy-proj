@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,6 +17,7 @@ import org.example.utils.DatabaseConnector;
 import org.h2.tools.RunScript;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -28,7 +30,6 @@ public class MySqlJobRoleDaoTest {
     public void setUp() throws Exception {
         h2Connection = DriverManager.getConnection("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
         RunScript.execute(h2Connection, new FileReader("src/test/resources/schema.sql"));
-        RunScript.execute(h2Connection, new FileReader("src/test/resources/data.sql"));
 
         mockDatabaseConnector = Mockito.mock(DatabaseConnector.class);
         when(mockDatabaseConnector.getConnection()).thenReturn(h2Connection);
@@ -42,7 +43,10 @@ public class MySqlJobRoleDaoTest {
     }
 
     @Test
-    public void getJobRoles_shouldReturnListOfJobRoles_whenDatabaseReturnsRowsOfJobRoles() throws JobRoleDaoException {
+    public void getJobRoles_shouldReturnListOfJobRoles_whenDatabaseReturnsRowsOfJobRoles() throws JobRoleDaoException,
+            Exception {
+        RunScript.execute(h2Connection, new FileReader("src/test/resources/data.sql"));
+
         List<JobRole> jobRoles = IJobRoleDao.getJobRoles();
         assertNotNull(jobRoles);
         assertEquals(2, jobRoles.size());
@@ -54,5 +58,13 @@ public class MySqlJobRoleDaoTest {
         JobRole secondRole = jobRoles.get(1);
         assertEquals(2, secondRole.getRoleId());
         assertEquals("Product Manager", secondRole.getRoleName());
+    }
+
+    @Test
+    public void getJobRoles_shouldReturnListOfEmptyList_whenDatabaseReturnsNoRows()
+            throws JobRoleDaoException, Exception {
+        List<JobRole> jobRoles = IJobRoleDao.getJobRoles();
+        assertNotNull(jobRoles);
+        assertEquals(0, jobRoles.size());
     }
 }
