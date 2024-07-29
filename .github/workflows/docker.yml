@@ -26,16 +26,6 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Get domain for AWS App Runner
-        id: get-domain-app-runner
-        run: |
-          aws apprunner list-services --max-items 2 --region eu-west-1
-
-      - name: Get ECR repo id
-        id: get-repo-id
-        run: |
-          aws sts get-caller-identity --query Account --output text
-
       - name: Build & push the Docker image
         env:
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
