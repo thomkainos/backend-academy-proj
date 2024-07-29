@@ -12,8 +12,8 @@ A service to retrieve and update job roles for Kainos recruitment admin as well 
 - [Health Checks](#health)
 
 
-## <a name="#db-setup">Setting up the Database</a>
-### <a name="#db-local">Database Migration - Local</a>
+## Setting up the Database
+### Database Migration - Local
 
 
 1. Add your SQL script to `resources.db.migration` directory
@@ -38,7 +38,7 @@ export FLYWAY_BASELINE_ON_MIGRATE=true
 mvn flyway:migrate
 ```
 
-### <a name="#db-prod">Database Migration - Production</a>
+### Database Migration - Production
 
 
 1. Add following secrets to your Github repo:
@@ -54,7 +54,7 @@ DB_NAME - the prod db name
 3. After approvals, merge pull request; this will trigger the migration action to run in Github
 4. Ensure migration successfully runs against prod database
 
-## <a name="#start">How to start the application</a>
+## How to start the application
 
 1. Set the following environment variables:
     1. DB_USERNAME
@@ -83,13 +83,27 @@ java -jar target/java-swagger-flyway-starter-1.0-SNAPSHOT.jar server config.yml
 http://localhost:8080/api/job-roles
 ```
 
-## <a name="#endpoints">Endpoints</a>
+## Endpoints
 ### Get list of open job roles
-
+#### Request
 `GET /api/job-roles`
 
+```
+curl -i -H 'Accept: application/json' http://localhost:8080/api/job-roles
+```
 
-## <a name="#test">Test</a>
+#### Response
+    HTTP/1.1 200 OK
+    Date: Thu, 24 Feb 2011 12:36:30 GMT
+    Status: 200 OK
+    Connection: close
+    Content-Type: application/json
+    Content-Length: 2
+    
+    []
+
+
+## Test
 To run the unit tests:
 1. Run:
 
@@ -99,7 +113,7 @@ mvn clean test
 
 Note: integration tests are currently disabled since the backend server is currently not running outside of the application
 
-## <a name="#health">Health Checks</a>
+## Health Checks
 
 
 To see your applications health enter url `http://localhost:8081/healthcheck`
