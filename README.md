@@ -100,7 +100,26 @@ curl -i -H 'Accept: application/json' http://localhost:8080/api/job-roles
     Content-Type: application/json
     Content-Length: 2
     
-    []
+    [
+        {
+            "roleId": 11,
+            "roleName": "Software Engineer",
+            "location": "London",
+            "capability": "Full Stack Development",
+            "band": "Band 1",
+            "closingDate": 1723694400000,
+            "roleStatus": 1
+            },
+        {
+            "roleId": 12,
+            "roleName": "Product Manager",
+            "location": "Belfast",
+            "capability": "Product Strategy",
+            "band": "Band 2",
+            "closingDate": 1724299200000,
+            "roleStatus": 1
+        }
+    ]
 
 
 ## Test
