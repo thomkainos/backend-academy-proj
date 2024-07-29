@@ -34,7 +34,7 @@ jobs:
       - name: List AWS App Runner URL
         id: list-aws-url
         run: |
-          aws apprunner list-services --region <your-region>
+          aws apprunner list-services --region eu-west-1
 
       - name: Build & push the Docker image
         env:
