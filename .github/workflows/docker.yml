@@ -26,6 +26,11 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
+      - name: Get ECR repo name from Amazon ECR
+        id: get-ecr-repo
+        run: |
+          aws ecr describe-repositories --query "repositories[].[repositoryName]" --output text --no-cli-pager
+
       - name: Build & push the Docker image
         env:
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
