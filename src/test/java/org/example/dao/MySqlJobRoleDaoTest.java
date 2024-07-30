@@ -92,7 +92,7 @@ public class MySqlJobRoleDaoTest {
         assertEquals(1, jobRole.getRoleStatus());
         assertEquals("A Software Engineer develops", jobRole.getDescription());
         assertEquals("Designing and developing software applications", jobRole.getResponsibilities());
-        assertEquals("http://example.com/job-link/SoftwareEngineer", jobRole.getJob_link());
+        assertEquals("http://example.com/job-link/SoftwareEngineer", jobRole.getJobLink());
     }
 
     @Test
