@@ -2,16 +2,23 @@ package org.example.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import org.example.daos.MySqIJobRoleDao;
 import org.example.daos.interfaces.IJobRoleDao;
 import org.example.exception.JobRoleDaoException;
 import org.example.models.JobRole;
+import org.example.models.SingleJobRoleResponse;
 import org.example.utils.DatabaseConnector;
 import org.h2.tools.RunScript;
 import org.junit.jupiter.api.AfterEach;
@@ -64,5 +71,34 @@ public class MySqlJobRoleDaoTest {
         List<JobRole> jobRoles = IJobRoleDao.getJobRoles();
         assertNotNull(jobRoles);
         assertEquals(0, jobRoles.size());
+    }
+
+    @Test
+    public void getJobRoleById_shouldReturnJobRoleDetails_whenDatabaseReturnsJobRole()
+            throws JobRoleDaoException, FileNotFoundException, SQLException,
+            ParseException {
+
+        RunScript.execute(h2Connection, new FileReader("src/test/resources/data.sql"));
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date closingDate = sdf.parse("2024-08-15");
+
+        SingleJobRoleResponse jobRole = IJobRoleDao.getJobRoleById(1);
+        assertEquals("Software Engineer", jobRole.getRoleName());
+        assertEquals("London", jobRole.getLocation());
+        assertEquals("Full Stack Development", jobRole.getCapability());
+        assertEquals("Band 1", jobRole.getBand());
+        assertEquals(closingDate, jobRole.getClosingDate());
+        assertEquals(1, jobRole.getRoleStatus());
+        assertEquals("A Software Engineer develops", jobRole.getDescription());
+        assertEquals("Designing and developing software applications", jobRole.getResponsibilities());
+        assertEquals("http://example.com/job-link/SoftwareEngineer", jobRole.getJob_link());
+    }
+
+    @Test
+    public void getJobRoleById_shouldReturnNull_whenIdDoesNotExistInDatabase()
+            throws JobRoleDaoException {
+        SingleJobRoleResponse jobRole = IJobRoleDao.getJobRoleById(4);
+        assertNull(jobRole);
     }
 }
