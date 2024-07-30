@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -50,6 +51,12 @@ public class MySqlJobRoleDaoTest {
     @Test
     public void getJobRoles_shouldReturnListOfJobRoles_whenDatabaseReturnsRowsOfJobRoles() throws JobRoleDaoException,
             Exception {
+
+        try (Statement stmt = h2Connection.createStatement()) {
+            stmt.execute("DROP TABLE IF EXISTS roles");
+        }
+
+        RunScript.execute(h2Connection, new FileReader("src/test/resources/schema.sql"));
         RunScript.execute(h2Connection, new FileReader("src/test/resources/data.sql"));
 
         List<JobRole> jobRoles = IJobRoleDao.getJobRoles();
@@ -68,6 +75,7 @@ public class MySqlJobRoleDaoTest {
     @Test
     public void getJobRoles_shouldReturnListOfEmptyList_whenDatabaseReturnsNoRows()
             throws Exception {
+
         List<JobRole> jobRoles = IJobRoleDao.getJobRoles();
         assertNotNull(jobRoles);
         assertEquals(0, jobRoles.size());
@@ -78,6 +86,11 @@ public class MySqlJobRoleDaoTest {
             throws JobRoleDaoException, FileNotFoundException, SQLException,
             ParseException {
 
+        try (Statement stmt = h2Connection.createStatement()) {
+            stmt.execute("DROP TABLE IF EXISTS roles");
+        }
+
+        RunScript.execute(h2Connection, new FileReader("src/test/resources/schema.sql"));
         RunScript.execute(h2Connection, new FileReader("src/test/resources/data.sql"));
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
