@@ -1,8 +1,18 @@
 package org.example.dao;
 
-import org.example.daos.MySqIJobRoleDao;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
+
+import lombok.Getter;
 import org.example.daos.MySqlAuthDao;
 import org.example.daos.interfaces.IAuthDao;
+import org.example.exception.AuthDaoException;
+import org.example.exception.DatabaseConnectionException;
+import org.example.models.LoginRequest;
+import org.example.models.User;
 import org.example.utils.DatabaseConnector;
 import org.h2.tools.RunScript;
 import org.junit.jupiter.api.AfterEach;
@@ -13,9 +23,9 @@ import org.mockito.Mockito;
 import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
-import static org.mockito.Mockito.when;
-
+@Getter
 public class MySqlAuthDaoTest {
     private Connection h2Connection;
     private DatabaseConnector mockDatabaseConnector;
@@ -39,5 +49,48 @@ public class MySqlAuthDaoTest {
     }
 
     @Test
-    public void getUser_
+    public void getUser_shouldReturnUserObject_whenDatabaseReturnsRowFromUserTable() throws Exception {
+        RunScript.execute(h2Connection, new FileReader("src/test/resources/auth/insert_user_table.sql"));
+
+        LoginRequest loginRequest = new LoginRequest("user1", "user1");
+        User user = IAuthDao.getUser(loginRequest);
+
+        assertNotNull(user);
+        assertEquals("user1",  user.getUsername());
+        assertEquals("user1",  user.getPassword());
+    }
+
+    @Test
+    public void getUser_shouldReturnEmptyUserObject_whenDatabaseReturnsNoRows() throws Exception {
+        RunScript.execute(h2Connection, new FileReader("src/test/resources/auth/empty_user_table.sql"));
+
+        LoginRequest loginRequest = new LoginRequest("user1", "user1");
+        User user = IAuthDao.getUser(loginRequest);
+
+        assertNotNull(user);
+        assertNull(user.getUsername());
+        assertNull(user.getPassword());
+    }
+
+    @Test
+    public void getUser_shouldThrowAuthDaoException_whenDatabaseConneectorThrowsDatabaseConnectionException() throws Exception {
+        mockDatabaseConnector = Mockito.mock(DatabaseConnector.class);
+        when(mockDatabaseConnector.getConnection()).thenThrow(
+                DatabaseConnectionException.class);
+
+        IAuthDao = new MySqlAuthDao(mockDatabaseConnector);
+        assertThrows(AuthDaoException.class,
+                () -> IAuthDao.getUser(new LoginRequest("user1", "user1")));
+    }
+
+    @Test
+    public void getUser_shouldThrowAuthDaoException_whenDatabaseThrowsSqlException() throws Exception {
+        mockDatabaseConnector = Mockito.mock(DatabaseConnector.class);
+        when(mockDatabaseConnector.getConnection()).thenThrow(
+                SQLException.class);
+
+        IAuthDao = new MySqlAuthDao(mockDatabaseConnector);
+        assertThrows(AuthDaoException.class,
+                () -> IAuthDao.getUser(new LoginRequest("user1", "user1")));
+    }
 }

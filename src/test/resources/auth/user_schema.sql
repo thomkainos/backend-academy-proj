@@ -1,6 +1,6 @@
-CREATE TABLE IF NOT EXISTS `system_role` (
-     sys_role_id TINYINT PRIMARY KEY AUTO_INCREMENT,
-     sys_role_name varchar(64) NOT NULL
+CREATE TABLE IF NOT EXISTS `user` (
+    username varchar(64) PRIMARY KEY,
+    password varchar(64) NOT NULL,
+    sys_role_id TINYINT NOT NULL,
+    FOREIGN KEY (sys_role_id) REFERENCES `system_role`(sys_role_id)
 );
-
-INSERT INTO `system_role`(sys_role_name) VALUES ('User');
