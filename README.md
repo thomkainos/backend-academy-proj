@@ -61,8 +61,15 @@ DB_NAME - the prod db name
     2. DB_PASSWORD
     3. DB_HOST
     4. DB_NAME
+
    
 1. To build your application run:
+1. Run `mvn clean install` to build your application
+1. You can start application via:
+    1. Terminal: `java -jar target/kainos-job-role-manager.jar server config.yml`
+    2. IDE: Edit run configuration -> Add `server` to program arguments -> Run
+1. To check that your application is running enter url `http://localhost:8080/api/job-roles`
+
 
 ```
 mvn clean install
