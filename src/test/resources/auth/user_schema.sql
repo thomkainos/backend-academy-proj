@@ -5,3 +5,4 @@ CREATE TABLE IF NOT EXISTS `user` (
     sys_role_id TINYINT NOT NULL,
     FOREIGN KEY (sys_role_id) REFERENCES `system_role`(sys_role_id)
 );
+
