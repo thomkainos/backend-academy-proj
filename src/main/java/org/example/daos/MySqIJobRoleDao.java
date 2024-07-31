@@ -67,7 +67,6 @@ public class MySqIJobRoleDao implements IJobRoleDao {
     public JobRoleDetailsResponse getJobRoleById(final int id)
             throws JobRoleDaoException {
 
-        
         try (Connection connection = databaseConnector.getConnection()) {
             String query = "Select role_name, location, capability,"
             + " band, closing_date, role_status, description,"
