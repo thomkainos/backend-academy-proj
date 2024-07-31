@@ -1,6 +1,10 @@
 # Kainos Job Role Manager - Backend
 
 A service to retrieve and update job roles for Kainos recruitment admin as well as to process applications for applicants.
+
+Try out the application in production here: https://w5sqymg6ru.eu-west-1.awsapprunner.com/swagger#/Kainos%20Job%20Role%20Manager%20API/getListOpenJobRoles
+- Make sure to select https
+
 ## Table of Contents
 
 - [Setting up the Database](#db-setup)
@@ -10,7 +14,6 @@ A service to retrieve and update job roles for Kainos recruitment admin as well 
 - [Endpoints](#endpoints)
 - [Testing](#test)
 - [Health Checks](#health)
-
 
 ## Setting up the Database
 ### Database Migration - Local
@@ -70,26 +73,6 @@ DB_NAME - the prod db name
     2. IDE: Edit run configuration -> Add `server` to program arguments -> Run
 1. To check that your application is running enter url `http://localhost:8080/api/job-roles`
 
-
-```
-mvn clean install
-```
-
-1. You can start application via:
-    1. Terminal: 
-
-```
-java -jar target/java-swagger-flyway-starter-1.0-SNAPSHOT.jar server config.yml
-```
-
-   2. IDE: Edit run configuration -> Add `server` to program arguments -> Run
-   
-1. To check that your application is running enter url:
-
-```
-http://localhost:8080/api/job-roles
-```
-
 ## Endpoints
 ### Get list of open job roles
 #### Request
@@ -139,7 +122,7 @@ mvn clean test
 
 Note: integration tests are currently disabled since the backend server is currently not running outside of the application
 
-## Health Checks
-
+Health Check
+---
 
 To see your applications health enter url `http://localhost:8081/healthcheck`
