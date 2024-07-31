@@ -25,6 +25,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+<<<<<<< HEAD
+=======
+@Getter
+>>>>>>> 6ea3486 (test: created all unit tests for MySqlAuthDao)
 public class MySqlAuthDaoTest {
     private Connection h2Connection;
     private DatabaseConnector mockDatabaseConnector;
@@ -48,8 +52,25 @@ public class MySqlAuthDaoTest {
     }
 
     @Test
+<<<<<<< HEAD
     public void getUser_shouldReturnEmptyUserObject_whenUsernameDoesNotExist() throws Exception {
         RunScript.execute(h2Connection, new FileReader("src/test/resources/auth/whenUsernameDoesNotExist.sql"));
+=======
+    public void getUser_shouldReturnUserObject_whenDatabaseReturnsRowFromUserTable() throws Exception {
+        RunScript.execute(h2Connection, new FileReader("src/test/resources/auth/insert_user_table.sql"));
+
+        LoginRequest loginRequest = new LoginRequest("user1", "user1");
+        User user = IAuthDao.getUser(loginRequest);
+
+        assertNotNull(user);
+        assertEquals("user1",  user.getUsername());
+        assertEquals("user1",  user.getPassword());
+    }
+
+    @Test
+    public void getUser_shouldReturnEmptyUserObject_whenDatabaseReturnsNoRows() throws Exception {
+        RunScript.execute(h2Connection, new FileReader("src/test/resources/auth/empty_user_table.sql"));
+>>>>>>> 6ea3486 (test: created all unit tests for MySqlAuthDao)
 
         LoginRequest loginRequest = new LoginRequest("user1", "user1");
         User user = IAuthDao.getUser(loginRequest);
@@ -60,6 +81,7 @@ public class MySqlAuthDaoTest {
     }
 
     @Test
+<<<<<<< HEAD
     public void getUser_shouldReturnEmptyUserObject_whenPasswordIsInvalid() throws Exception {
         RunScript.execute(h2Connection, new FileReader("src/test/resources/auth/whenPasswordIsInvalid.sql"));
 
@@ -90,6 +112,9 @@ public class MySqlAuthDaoTest {
 
     @Test
     public void getUser_shouldThrowAuthDaoException_whenDatabaseConnectorThrowsDatabaseConnectionException() throws Exception {
+=======
+    public void getUser_shouldThrowAuthDaoException_whenDatabaseConneectorThrowsDatabaseConnectionException() throws Exception {
+>>>>>>> 6ea3486 (test: created all unit tests for MySqlAuthDao)
         mockDatabaseConnector = Mockito.mock(DatabaseConnector.class);
         when(mockDatabaseConnector.getConnection()).thenThrow(
                 DatabaseConnectionException.class);
