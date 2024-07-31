@@ -2,15 +2,14 @@ package org.example.service;
 
 import org.example.daos.interfaces.IJobRoleDao;
 import org.example.exception.JobRoleDaoException;
+import org.example.models.JobRoleDetailsResponse;
 import org.example.models.JobRoleResponse;
-import org.example.models.SingleJobRoleResponse;
 import org.example.services.JobRoleService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import java.sql.Date;
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +47,7 @@ public class JobRoleServiceTest {
         LocalDate localDate = LocalDate.of(2024, 8, 15);
         Date closingDate = Date.valueOf(localDate);
 
-        SingleJobRoleResponse expectedResult = new SingleJobRoleResponse(
+        JobRoleDetailsResponse expectedResult = new JobRoleDetailsResponse(
                 "Software Engineer",
                 "Toronto",
                 "very capable",
@@ -62,7 +61,7 @@ public class JobRoleServiceTest {
         );
 
         Mockito.when(IJobRoleDao.getJobRoleById(1)).thenReturn(expectedResult);
-        SingleJobRoleResponse result = jobRoleService.getJobRoleById(1);
+        JobRoleDetailsResponse result = jobRoleService.getJobRoleById(1);
 
         assertEquals(expectedResult, result);
     }

@@ -6,7 +6,7 @@ import org.example.daos.interfaces.IJobRoleDao;
 import org.example.exception.DatabaseConnectionException;
 import org.example.exception.JobRoleDaoException;
 import org.example.models.JobRole;
-import org.example.models.SingleJobRoleResponse;
+import org.example.models.JobRoleDetailsResponse;
 import org.example.utils.DatabaseConnector;
 
 import java.sql.Connection;
@@ -64,8 +64,10 @@ public class MySqIJobRoleDao implements IJobRoleDao {
     }
 
     @Override
-    public SingleJobRoleResponse getJobRoleById(final int id)
+    public JobRoleDetailsResponse getJobRoleById(final int id)
             throws JobRoleDaoException {
+
+        
         try (Connection connection = databaseConnector.getConnection()) {
             String query = "Select role_name, location, capability,"
             + " band, closing_date, role_status, description,"
@@ -77,7 +79,7 @@ public class MySqIJobRoleDao implements IJobRoleDao {
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                return new SingleJobRoleResponse(
+                return new JobRoleDetailsResponse(
                         resultSet.getString("role_name"),
                         resultSet.getString("location"),
                         resultSet.getString("capability"),
@@ -90,7 +92,7 @@ public class MySqIJobRoleDao implements IJobRoleDao {
                 );
 
             }
-            return null;
+            return new JobRoleDetailsResponse();
 
         } catch (SQLException e) {
             throw new JobRoleDaoException("SQLException: " + e.getMessage(), e);

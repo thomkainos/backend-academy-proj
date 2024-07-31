@@ -2,7 +2,6 @@ package org.example.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
 import java.io.FileNotFoundException;
@@ -19,7 +18,7 @@ import org.example.daos.MySqIJobRoleDao;
 import org.example.daos.interfaces.IJobRoleDao;
 import org.example.exception.JobRoleDaoException;
 import org.example.models.JobRole;
-import org.example.models.SingleJobRoleResponse;
+import org.example.models.JobRoleDetailsResponse;
 import org.example.utils.DatabaseConnector;
 import org.h2.tools.RunScript;
 import org.junit.jupiter.api.AfterEach;
@@ -96,7 +95,7 @@ public class MySqlJobRoleDaoTest {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date closingDate = sdf.parse("2024-08-15");
 
-        SingleJobRoleResponse jobRole = IJobRoleDao.getJobRoleById(1);
+        JobRoleDetailsResponse jobRole = IJobRoleDao.getJobRoleById(1);
         assertEquals("Software Engineer", jobRole.getRoleName());
         assertEquals("London", jobRole.getLocation());
         assertEquals("Full Stack Development", jobRole.getCapability());
@@ -109,9 +108,19 @@ public class MySqlJobRoleDaoTest {
     }
 
     @Test
-    public void getJobRoleById_shouldReturnNull_whenIdDoesNotExistInDatabase()
+    public void getJobRoleById_shouldReturnEmptyJobRoleDetailsResponse_whenIdDoesNotExistInDatabase()
             throws JobRoleDaoException {
-        SingleJobRoleResponse jobRole = IJobRoleDao.getJobRoleById(4);
-        assertNull(jobRole);
+        JobRoleDetailsResponse emptyJobRoleDetailsObject = new JobRoleDetailsResponse();;
+        JobRoleDetailsResponse jobRole = IJobRoleDao.getJobRoleById(4);
+
+        assertEquals(emptyJobRoleDetailsObject.getRoleName(), jobRole.getRoleName());
+        assertEquals(emptyJobRoleDetailsObject.getLocation(), jobRole.getLocation());
+        assertEquals(emptyJobRoleDetailsObject.getCapability(), jobRole.getCapability());
+        assertEquals(emptyJobRoleDetailsObject.getBand(), jobRole.getBand());
+        assertEquals(emptyJobRoleDetailsObject.getClosingDate(), jobRole.getClosingDate());
+        assertEquals(emptyJobRoleDetailsObject.getRoleStatus(), jobRole.getRoleStatus());
+        assertEquals(emptyJobRoleDetailsObject.getDescription(), jobRole.getDescription());
+        assertEquals(emptyJobRoleDetailsObject.getResponsibilities(), jobRole.getResponsibilities());
+        assertEquals(emptyJobRoleDetailsObject.getJobLink(), jobRole.getJobLink());
     }
 }

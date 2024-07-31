@@ -1,16 +1,14 @@
 package org.example.controller;
 
 import org.example.controllers.JobRoleController;
-import org.example.exception.DatabaseConnectionException;
 import org.example.exception.JobRoleDaoException;
+import org.example.models.JobRoleDetailsResponse;
 import org.example.models.JobRoleResponse;
-import org.example.models.SingleJobRoleResponse;
 import org.example.services.JobRoleService;
 import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.core.Response;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +51,7 @@ public class JobRoleControllerTest {
         LocalDate localDate = LocalDate.of(2024, 8, 15);
         Date closingDate = Date.valueOf(localDate);
 
-        SingleJobRoleResponse singleJobRoleResponse = new SingleJobRoleResponse(
+        JobRoleDetailsResponse jobRoleDetailsResponse = new JobRoleDetailsResponse(
                 "Software Engineer",
                 "Toronto",
                 "very capable",
@@ -65,11 +63,11 @@ public class JobRoleControllerTest {
                 "http://example.com/job-link/SoftwareEngineer"
 
         );
-        when(jobRoleService.getJobRoleById(1)).thenReturn(singleJobRoleResponse);
+        when(jobRoleService.getJobRoleById(1)).thenReturn(jobRoleDetailsResponse);
 
         Response response = jobRoleController.getJobRoleById(1);
         assertEquals(200, response.getStatus());
-        assertEquals(singleJobRoleResponse, response.getEntity());
+        assertEquals(jobRoleDetailsResponse, response.getEntity());
     }
 
     @Test
