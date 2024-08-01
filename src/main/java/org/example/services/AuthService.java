@@ -1,6 +1,5 @@
 package org.example.services;
 
-import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
