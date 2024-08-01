@@ -49,6 +49,47 @@ public class MySqlAuthDaoTest {
     }
 
     @Test
+    public void getUser_shouldReturnEmptyUserObject_whenUsernameDoesNotExist() throws Exception {
+        RunScript.execute(h2Connection, new FileReader("src/test/resources/auth/whenUsernameDoesNotExist.sql"));
+
+        LoginRequest loginRequest = new LoginRequest("user1", "user1");
+        User user = IAuthDao.getUser(loginRequest);
+
+        assertNotNull(user);
+        assertNull(user.getUsername());
+        assertNull(user.getPassword());
+    }
+
+    @Test
+    public void getUser_shouldReturnEmptyUserObject_whenPasswordIsInvalid() throws Exception {
+        RunScript.execute(h2Connection, new FileReader("src/test/resources/auth/whenPasswordIsInvalid.sql"));
+
+        LoginRequest loginRequest = new LoginRequest("user1", "");
+        User user = IAuthDao.getUser(loginRequest);
+
+        assertNotNull(user);
+        assertNull(user.getUsername());
+        assertNull(user.getPassword());
+    }
+
+    @Test
+    public void getUser_shouldReturnPopulatedUserObject_whenUserCredentialsAreValid() throws Exception {
+        RunScript.execute(h2Connection, new FileReader("src/test/resources/auth/whenUserCredentialsAreValid.sql"));
+
+        String testUsername = "user1";
+        String testPassword = "user1";
+        int testSysRoleId = 1;
+        LoginRequest loginRequest = new LoginRequest(testUsername, testPassword);
+
+        User user = IAuthDao.getUser(loginRequest);
+
+        assertNotNull(user);
+        assertEquals(testUsername, user.getUsername());
+        assertEquals(testPassword, user.getPassword());
+        assertEquals(testSysRoleId, user.getSysRoleId());
+    }
+
+    @Test
     public void getUser_shouldReturnUserObject_whenDatabaseReturnsRowFromUserTable() throws Exception {
         RunScript.execute(h2Connection, new FileReader("src/test/resources/auth/insert_user_table.sql"));
 
@@ -70,6 +111,11 @@ public class MySqlAuthDaoTest {
         assertNotNull(user);
         assertNull(user.getUsername());
         assertNull(user.getPassword());
+    }
+
+    @Test
+    public void getUser_shouldThrowAuthDaoException_whenDatabaseReturnsNoRows() throws Exception {
+
     }
 
     @Test

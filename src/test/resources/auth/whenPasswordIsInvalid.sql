@@ -1,0 +1,1 @@
+INSERT INTO `user`(username, password, salt, sys_role_id) VALUES ('user1', '$2a$10$LXkEB0jGdGa/nvRPtzm2aebjO../9DmWvl7iEQaRuOT1JGRzPi6uG', '$2b$10$y6i/7sKQ5S/jWw8hizueue', 1);
