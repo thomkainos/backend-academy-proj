@@ -7,6 +7,7 @@ import org.example.models.LoginRequest;
 import org.example.models.User;
 import org.example.utils.DatabaseConnector;
 import org.mindrot.jbcrypt.BCrypt;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,10 +25,10 @@ public class MySqlAuthDao implements IAuthDao {
             AuthDaoException {
         User user = new User();
         String getUserCredQuery =
-            "SELECT `username`, `password`, `salt`,"
-                + " `sys_role_id` FROM `user`"
-                + " WHERE `username` = ?";
-
+                "SELECT `username`, `password`, `salt`,"
+                        + " `sys_role_id` FROM `user`"
+                        + " WHERE `username` = ?";
+        // FIX ME: should the statement commands be in the resources section?
         try (Connection connection = databaseConnector.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(
                     getUserCredQuery);
@@ -53,9 +54,5 @@ public class MySqlAuthDao implements IAuthDao {
             throw new AuthDaoException("Unable to connect to database", e);
         }
         return user;
-    }
-
-    private String computeHash(final String password, final String salt) {
-        return BCrypt.hashpw(password, salt);
     }
 }
