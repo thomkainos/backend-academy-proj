@@ -7,17 +7,10 @@ import org.example.models.LoginRequest;
 import org.example.models.User;
 import org.example.utils.DatabaseConnector;
 import org.mindrot.jbcrypt.BCrypt;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 public class MySqlAuthDao implements IAuthDao {
     private DatabaseConnector databaseConnector;
@@ -31,34 +24,9 @@ public class MySqlAuthDao implements IAuthDao {
             AuthDaoException {
         User user = new User();
         String getUserCredQuery =
-<<<<<<< HEAD
-                "SELECT `username`, `password`, `salt`,"
-                        + " `sys_role_id` FROM `user`"
-                        + " WHERE `username` = ?";
-=======
-                "SELECT username, password, sys_role_id, FROM `user`"
-                        + " WHERE `username` = ? AND `password` = ?";
-
-        try (Connection connection = databaseConnector.getConnection()) {
-            // FIX ME: should the statement commands be in the resources section
-            PreparedStatement statement = connection.prepareStatement(
-                    getUserCredQuery);
-            statement.setString(1, loginRequest.getUsername());
-            statement.setString(2, loginRequest.getPassword());
-
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                user.setUsername(resultSet.getString("username"));
-                user.setPassword(resultSet.getString("password"));
-            }
-
-        } catch (SQLException e) {
-            throw new AuthDaoException(
-                    "Unable to get information from database", e);
-        } catch (DatabaseConnectionException e) {
-            throw new AuthDaoException("Unable to connect to database", e);
-        }
->>>>>>> 6ea3486 (test: created all unit tests for MySqlAuthDao)
+            "SELECT `username`, `password`, `salt`,"
+                + " `sys_role_id` FROM `user`"
+                + " WHERE `username` = ?";
 
         try (Connection connection = databaseConnector.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(
@@ -75,7 +43,6 @@ public class MySqlAuthDao implements IAuthDao {
                 return user;
             }
 
-<<<<<<< HEAD
             user.setUsername(loginRequest.getUsername());
             user.setPassword(loginRequest.getPassword());
             user.setSysRoleId(resultSet.getInt("sys_role_id"));
@@ -85,8 +52,10 @@ public class MySqlAuthDao implements IAuthDao {
         } catch (DatabaseConnectionException e) {
             throw new AuthDaoException("Unable to connect to database", e);
         }
-=======
->>>>>>> 6ea3486 (test: created all unit tests for MySqlAuthDao)
         return user;
+    }
+
+    private String computeHash(final String password, final String salt) {
+        return BCrypt.hashpw(password, salt);
     }
 }
