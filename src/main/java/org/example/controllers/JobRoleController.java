@@ -41,7 +41,7 @@ public class JobRoleController {
             return Response.ok()
                     .entity(jobRoleService.getJobRoleById(id)).build();
         } catch (JobRoleDaoException e) {
-            return Response.status(404).build();
+            return Response.status(Response.Status.NOT_FOUND).build();
         }
     }
 }
