@@ -71,12 +71,12 @@ public class JobRoleControllerTest {
     }
 
     @Test
-    void getJobRoleById_shouldReturn500StatusCode_whenServiceReturnsJobRoleDaoException()
+    void getJobRoleById_shouldReturn404StatusCode_whenServiceReturnsJobRoleDaoException()
             throws JobRoleDaoException {
         when(jobRoleService.getJobRoleById(10)).thenThrow(JobRoleDaoException.class);
 
         Response response = jobRoleController.getJobRoleById(10);
 
-        assertEquals(500, response.getStatus());
+        assertEquals(404, response.getStatus());
     }
 }

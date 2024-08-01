@@ -1,5 +1,6 @@
 package org.example.dao;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
@@ -9,10 +10,8 @@ import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import org.example.daos.MySqIJobRoleDao;
 import org.example.daos.interfaces.IJobRoleDao;
@@ -34,6 +33,7 @@ public class MySqlJobRoleDaoTest {
     @BeforeEach
     public void setUp() throws Exception {
         h2Connection = DriverManager.getConnection("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
+        h2Connection.createStatement().execute("DROP TABLE IF EXISTS roles");
         RunScript.execute(h2Connection, new FileReader("src/test/resources/schema.sql"));
 
         mockDatabaseConnector = Mockito.mock(DatabaseConnector.class);
@@ -50,12 +50,6 @@ public class MySqlJobRoleDaoTest {
     @Test
     public void getJobRoles_shouldReturnListOfJobRoles_whenDatabaseReturnsRowsOfJobRoles() throws JobRoleDaoException,
             Exception {
-
-        try (Statement stmt = h2Connection.createStatement()) {
-            stmt.execute("DROP TABLE IF EXISTS roles");
-        }
-
-        RunScript.execute(h2Connection, new FileReader("src/test/resources/schema.sql"));
         RunScript.execute(h2Connection, new FileReader("src/test/resources/data.sql"));
 
         List<JobRole> jobRoles = IJobRoleDao.getJobRoles();
@@ -82,29 +76,27 @@ public class MySqlJobRoleDaoTest {
 
     @Test
     public void getJobRoleById_shouldReturnJobRoleDetails_whenDatabaseReturnsJobRole()
-            throws JobRoleDaoException, FileNotFoundException, SQLException,
-            ParseException {
+            throws JobRoleDaoException, FileNotFoundException, SQLException {
 
-        try (Statement stmt = h2Connection.createStatement()) {
-            stmt.execute("DROP TABLE IF EXISTS roles");
-        }
-
-        RunScript.execute(h2Connection, new FileReader("src/test/resources/schema.sql"));
         RunScript.execute(h2Connection, new FileReader("src/test/resources/data.sql"));
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date closingDate = sdf.parse("2024-08-15");
+        LocalDate localDate = LocalDate.of(2024, 8, 15);
+        Date closingDate = Date.valueOf(localDate);
+
+        JobRoleDetailsResponse expectedResults = new JobRoleDetailsResponse(
+                "Software Engineer",
+                "London",
+                "Full Stack Development",
+                "Band 1",
+                closingDate,
+                1,
+                "A Software Engineer develops",
+                "Designing and developing software applications",
+                "http://example.com/job-link/SoftwareEngineer"
+        );
 
         JobRoleDetailsResponse jobRole = IJobRoleDao.getJobRoleById(1);
-        assertEquals("Software Engineer", jobRole.getRoleName());
-        assertEquals("London", jobRole.getLocation());
-        assertEquals("Full Stack Development", jobRole.getCapability());
-        assertEquals("Band 1", jobRole.getBand());
-        assertEquals(closingDate, jobRole.getClosingDate());
-        assertEquals(1, jobRole.getRoleStatus());
-        assertEquals("A Software Engineer develops", jobRole.getDescription());
-        assertEquals("Designing and developing software applications", jobRole.getResponsibilities());
-        assertEquals("http://example.com/job-link/SoftwareEngineer", jobRole.getJobLink());
+        assertThat(jobRole).isEqualToComparingFieldByField(expectedResults);
     }
 
     @Test
@@ -113,14 +105,6 @@ public class MySqlJobRoleDaoTest {
         JobRoleDetailsResponse emptyJobRoleDetailsObject = new JobRoleDetailsResponse();;
         JobRoleDetailsResponse jobRole = IJobRoleDao.getJobRoleById(4);
 
-        assertEquals(emptyJobRoleDetailsObject.getRoleName(), jobRole.getRoleName());
-        assertEquals(emptyJobRoleDetailsObject.getLocation(), jobRole.getLocation());
-        assertEquals(emptyJobRoleDetailsObject.getCapability(), jobRole.getCapability());
-        assertEquals(emptyJobRoleDetailsObject.getBand(), jobRole.getBand());
-        assertEquals(emptyJobRoleDetailsObject.getClosingDate(), jobRole.getClosingDate());
-        assertEquals(emptyJobRoleDetailsObject.getRoleStatus(), jobRole.getRoleStatus());
-        assertEquals(emptyJobRoleDetailsObject.getDescription(), jobRole.getDescription());
-        assertEquals(emptyJobRoleDetailsObject.getResponsibilities(), jobRole.getResponsibilities());
-        assertEquals(emptyJobRoleDetailsObject.getJobLink(), jobRole.getJobLink());
+        assertThat(jobRole).isEqualToComparingFieldByField(emptyJobRoleDetailsObject);
     }
 }

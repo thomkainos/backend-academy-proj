@@ -1,7 +1,6 @@
 package org.example.controllers;
 
 import io.swagger.annotations.Api;
-import org.eclipse.jetty.http.HttpStatus;
 import org.example.exception.JobRoleDaoException;
 import org.example.services.JobRoleService;
 
@@ -39,10 +38,10 @@ public class JobRoleController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getJobRoleById(@PathParam("id") final int id) {
         try {
-            return Response.status(HttpStatus.OK_200)
+            return Response.ok()
                     .entity(jobRoleService.getJobRoleById(id)).build();
         } catch (JobRoleDaoException e) {
-            return Response.serverError().build();
+            return Response.status(404).build();
         }
     }
 }
