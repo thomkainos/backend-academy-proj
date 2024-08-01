@@ -13,7 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Api("Auth API")
+@Api("Kainos Auth API")
 @Path("/api/auth") @AllArgsConstructor
 public class AuthController {
     AuthService authService;
