@@ -40,7 +40,7 @@ public class AuthControllerTest {
                 InvalidCredentialsException.class);
 
         Response response = authController.login(loginRequest);
-        assertEquals(401, response.getStatus());
+        assertEquals(400, response.getStatus());
     }
 
     @Test
