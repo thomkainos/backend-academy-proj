@@ -25,9 +25,9 @@ public class MySqlAuthDao implements IAuthDao {
             AuthDaoException {
         User user = new User();
         String getUserCredQuery =
-                "SELECT username, password, salt, sys_role_id, FROM `user`"
+                "SELECT `username`, `password`, `salt`,"
+                        + " `sys_role_id` FROM `user`"
                         + " WHERE `username` = ?";
-
         // FIX ME: should the statement commands be in the resources section?
         try (Connection connection = databaseConnector.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(
@@ -36,23 +36,13 @@ public class MySqlAuthDao implements IAuthDao {
             ResultSet resultSet = statement.executeQuery();
 
             if (!resultSet.next()) {
-                user.setUsername("user1");
                 return user;
             }
 
-            String salt = resultSet.getString("salt");
             String storedHash = resultSet.getString("password");
-            String computedHash = computeHash(loginRequest.getPassword(), salt);
-
-            if (BCrypt.checkpw(computedHash, storedHash)) {
-                user.setUsername(loginRequest.getUsername());
-            } else {
-                user.setUsername("user1");
+            if (!BCrypt.checkpw(loginRequest.getPassword(), storedHash)) {
                 return user;
             }
-//            if (!isValidHash(computedHash, storedHash)) {
-//                return user; // return empty user
-//            }
 
             user.setUsername(loginRequest.getUsername());
             user.setPassword(loginRequest.getPassword());
@@ -64,13 +54,5 @@ public class MySqlAuthDao implements IAuthDao {
             throw new AuthDaoException("Unable to connect to database", e);
         }
         return user;
-    }
-
-    private String computeHash(final String password, final String salt) {
-        return BCrypt.hashpw(password, salt);
-    }
-
-    private boolean isValidHash(final String computedHash, final String storedHash) {
-        return BCrypt.checkpw(computedHash, storedHash);
     }
 }
