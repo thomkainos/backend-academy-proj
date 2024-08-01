@@ -1,11 +1,14 @@
 # Kainos Job Role Manager - Backend
-
 A service to retrieve and update job roles for Kainos recruitment admin as well as to process applications for applicants.
+
+Try out the application in production here: https://w5sqymg6ru.eu-west-1.awsapprunner.com/swagger#/Kainos%20Job%20Role%20Manager%20API/getListOpenJobRoles
+- Make sure to select https
+
 ## Table of Contents
 
 - [Setting up the Database](#db-setup)
-   - [Database Migration - Local](#db-local)
-   - [Database Migration - Production](#db-prod)
+    - [Database Migration - Local](#db-local)
+    - [Database Migration - Production](#db-prod)
 - [How to start](#start)
 - [Endpoints](#endpoints)
 - [Testing](#test)
@@ -14,8 +17,6 @@ A service to retrieve and update job roles for Kainos recruitment admin as well 
 
 ## Setting up the Database
 ### Database Migration - Local
-
-
 1. Add your SQL script to `resources.db.migration` directory
 2. Add the following lines to your ~/.zshrc file:
 
@@ -54,34 +55,18 @@ DB_NAME - the prod db name
 3. After approvals, merge pull request; this will trigger the migration action to run in Github
 4. Ensure migration successfully runs against prod database
 
-## How to start the application
-
+How to start the application (locally)
+---
 1. Set the following environment variables:
     1. DB_USERNAME
     2. DB_PASSWORD
     3. DB_HOST
     4. DB_NAME
-   
-1. To build your application run:
-
-```
-mvn clean install
-```
-
+1. Run `mvn clean install` to build your application
 1. You can start application via:
-    1. Terminal: 
-
-```
-java -jar target/java-swagger-flyway-starter-1.0-SNAPSHOT.jar server config.yml
-```
-
-   2. IDE: Edit run configuration -> Add `server` to program arguments -> Run
-   
-1. To check that your application is running enter url:
-
-```
-http://localhost:8080/api/job-roles
-```
+    1. Terminal: `java -jar target/kainos-job-role-manager.jar server config.yml`
+    2. IDE: Edit run configuration -> Add `server` to program arguments -> Run
+1. To check that your application is running enter url `http://localhost:8080/api/job-roles`
 
 ## Endpoints
 ### Get list of open job roles
@@ -121,7 +106,6 @@ curl -i -H 'Accept: application/json' http://localhost:8080/api/job-roles
         }
     ]
 
-
 ## Test
 To run the unit tests:
 1. Run:
@@ -133,6 +117,5 @@ mvn clean test
 Note: integration tests are currently disabled since the backend server is currently not running outside of the application
 
 ## Health Checks
-
 
 To see your applications health enter url `http://localhost:8081/healthcheck`
