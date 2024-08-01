@@ -31,6 +31,7 @@ public class JobRoleManagerApplication extends
     public void run(final JobRoleManagerConfiguration configuration,
                     final Environment environment) {
         DatabaseConnector databaseConnector = new DatabaseConnector();
+
         environment.jersey()
                 .register(new JobRoleController(
                         new JobRoleService(
