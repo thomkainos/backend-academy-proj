@@ -9,6 +9,7 @@ import java.sql.Date;
 
 @AllArgsConstructor @Getter @Setter @NoArgsConstructor
 public class JobRoleDetailsResponse {
+    private int roleId;
     private String roleName;
     private String location;
     private String capability;

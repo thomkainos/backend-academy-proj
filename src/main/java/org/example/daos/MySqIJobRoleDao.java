@@ -68,7 +68,7 @@ public class MySqIJobRoleDao implements IJobRoleDao {
             throws JobRoleDaoException {
 
         try (Connection connection = databaseConnector.getConnection()) {
-            String query = "Select role_name, location, capability,"
+            String query = "Select `role_id`, role_name, location, capability,"
             + " band, closing_date, role_status, description,"
             + " responsibilities, job_link FROM roles WHERE role_id = ?;";
             PreparedStatement statement = connection.prepareStatement(query);
@@ -79,6 +79,7 @@ public class MySqIJobRoleDao implements IJobRoleDao {
 
             if (resultSet.next()) {
                 return new JobRoleDetailsResponse(
+                        resultSet.getInt("role_id"),
                         resultSet.getString("role_name"),
                         resultSet.getString("location"),
                         resultSet.getString("capability"),

@@ -2,6 +2,7 @@ package org.example.controllers;
 
 import io.swagger.annotations.Api;
 import org.example.exception.JobRoleDaoException;
+import org.example.models.JobRoleDetailsResponse;
 import org.example.services.JobRoleService;
 
 import javax.ws.rs.GET;
@@ -36,12 +37,23 @@ public class JobRoleController {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getJobRoleById(@PathParam("id") final int id) {
+    public Response getJobRoleById(@PathParam("id") final String id) {
         try {
-            return Response.ok()
-                    .entity(jobRoleService.getJobRoleById(id)).build();
+            int parsedId;
+            try {
+                parsedId = Integer.parseInt(id);
+            } catch (NumberFormatException e) {
+                return Response.status(Response.Status.BAD_REQUEST).build();
+            }
+            JobRoleDetailsResponse response =
+                    jobRoleService.getJobRoleById(parsedId);
+            if (response.getRoleId() == 0) {
+                return Response.status(Response.Status.NOT_FOUND).build();
+            } else {
+                return Response.ok().entity(response).build();
+            }
         } catch (JobRoleDaoException e) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.serverError().build();
         }
     }
 }

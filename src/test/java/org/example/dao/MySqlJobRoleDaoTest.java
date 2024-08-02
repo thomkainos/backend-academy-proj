@@ -84,6 +84,7 @@ public class MySqlJobRoleDaoTest {
         Date closingDate = Date.valueOf(localDate);
 
         JobRoleDetailsResponse expectedResults = new JobRoleDetailsResponse(
+                1,
                 "Software Engineer",
                 "London",
                 "Full Stack Development",

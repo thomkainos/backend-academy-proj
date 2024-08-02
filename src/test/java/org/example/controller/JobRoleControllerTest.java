@@ -52,6 +52,7 @@ public class JobRoleControllerTest {
         Date closingDate = Date.valueOf(localDate);
 
         JobRoleDetailsResponse jobRoleDetailsResponse = new JobRoleDetailsResponse(
+                1,
                 "Software Engineer",
                 "Toronto",
                 "very capable",
@@ -65,18 +66,38 @@ public class JobRoleControllerTest {
         );
         when(jobRoleService.getJobRoleById(1)).thenReturn(jobRoleDetailsResponse);
 
-        Response response = jobRoleController.getJobRoleById(1);
+        Response response = jobRoleController.getJobRoleById("1");
         assertEquals(200, response.getStatus());
         assertEquals(jobRoleDetailsResponse, response.getEntity());
     }
 
     @Test
-    void getJobRoleById_shouldReturn404StatusCode_whenServiceReturnsJobRoleDaoException()
+    void getJobRoleById_shouldReturn500StatusCode_whenServiceReturnsJobRoleDaoException()
             throws JobRoleDaoException {
         when(jobRoleService.getJobRoleById(10)).thenThrow(JobRoleDaoException.class);
 
-        Response response = jobRoleController.getJobRoleById(10);
+        Response response = jobRoleController.getJobRoleById("10");
+
+        assertEquals(500, response.getStatus());
+    }
+
+    @Test
+    void getJobRoleById_shouldReturn404StatusCode_whenIdDoesNotExist()
+            throws JobRoleDaoException {
+        JobRoleDetailsResponse jobRoleDetailsResponse = new JobRoleDetailsResponse();
+
+        when(jobRoleService.getJobRoleById(1)).thenReturn(jobRoleDetailsResponse);
+
+        Response response = jobRoleController.getJobRoleById("1");
 
         assertEquals(404, response.getStatus());
+    }
+
+    @Test
+    void getJobRoleById_shouldReturn400StatusCode_whenIdIsNotAValidId() {
+
+        Response response = jobRoleController.getJobRoleById("invalidId");
+
+        assertEquals(400, response.getStatus());
     }
 }

@@ -48,6 +48,7 @@ public class JobRoleServiceTest {
         Date closingDate = Date.valueOf(localDate);
 
         JobRoleDetailsResponse expectedResult = new JobRoleDetailsResponse(
+                1,
                 "Software Engineer",
                 "Toronto",
                 "very capable",
