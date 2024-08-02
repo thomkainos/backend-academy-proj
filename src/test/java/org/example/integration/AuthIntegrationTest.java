@@ -1,5 +1,8 @@
 package org.example.integration;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.dropwizard.testing.junit5.DropwizardAppExtension;
 import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
 import org.example.JobRoleManagerApplication;
@@ -8,6 +11,8 @@ import org.example.models.LoginRequest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -15,6 +20,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Base64;
 
 
 @ExtendWith(DropwizardExtensionsSupport.class)
@@ -34,7 +40,8 @@ public class AuthIntegrationTest {
     }
 
     @Test
-    void login_shouldReturnJwtTokenWithProperTokenStructure_whenRequestContainsValidCredentials() {
+    void login_shouldReturnJwtTokenWithProperTokenStructure_whenRequestContainsValidCredentials()
+            throws JsonProcessingException {
         Client client = APP.client();
         LoginRequest loginRequest = new LoginRequest("user1", "user1");
 
@@ -44,6 +51,24 @@ public class AuthIntegrationTest {
                 .post(Entity.entity(loginRequest, MediaType.APPLICATION_JSON), String.class);
 
         assertFalse(response.isEmpty());
+
+        String splitByPeriodRegex = "\\.";
+        String[] tokenSections = response.split(splitByPeriodRegex);
+
+        Base64.Decoder decoder = Base64.getDecoder();
+        String headerAsStr = new String(decoder.decode(tokenSections[0]));
+        String payloadAsStr = new String(decoder.decode(tokenSections[1]));
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode headerNode = objectMapper.readTree(headerAsStr);
+        JsonNode payloadNode = objectMapper.readTree(payloadAsStr);
+
+        assertEquals("HS256", headerNode.get("alg").asText());
+        assertNotNull(payloadNode.get("iss").asText());
+        assertNotNull(payloadNode.get("exp").asText());
+        assertEquals(payloadNode.get("Role").asText(), "1");
+        assertEquals(payloadNode.get("sub").asText(), "user1");
+        assertEquals(payloadNode.get("iss").asText(), "Kainos Job Role Manager");
     }
 
     @Test

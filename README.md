@@ -106,6 +106,26 @@ curl -i -H 'Accept: application/json' http://localhost:8080/api/job-roles
         }
     ]
 
+### Login
+#### Request
+`POST /api/auth/login`
+
+```
+curl -X POST "http://localhost:8080/api/auth/login" -H "accept: application/json" -H "Content-Type: application/json" -d "{\"username\": \"user1\", \"password\": \"user1\" }"
+```
+
+#### Response
+    HTTP/1.1 200 OK
+    Date: Thu, 24 Feb 2011 12:36:30 GMT
+    Status: 200 OK
+    Connection: close
+    Content-Type: application/json
+    Content-Length: 2
+    
+    Response body:
+
+    eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjI2MTUxOTYsImV4cCI6MTcyMjYxNTE5NiwiUm9sZSI6MSwic3ViIjoidXNlcjEiLCJpc3MiOiJLYWlub3MgSm9iIFJvbGUgTWFuYWdlciJ9.Fm7Ty50S3DIKjNYeRva3_axkYsg2hc3p193BDTKS9_8
+
 ## Test
 To run the unit tests:
 1. Run:

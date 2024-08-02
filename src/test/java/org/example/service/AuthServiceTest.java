@@ -3,7 +3,6 @@ package org.example.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.example.daos.interfaces.IAuthDao;
 import org.example.exception.AuthDaoException;
@@ -31,7 +30,7 @@ public class AuthServiceTest {
     AuthService authService = new AuthService(IAuthDao, key);
 
     @Test
-    public void login_shouldReturnJwtToken_whenAuthDaoReturnsPopulatedUserObject()
+    public void login_shouldReturnJwtTokenWithProperStructure_whenAuthDaoReturnsPopulatedUserObject()
             throws AuthDaoException, InvalidCredentialsException,
             JsonProcessingException {
         LoginRequest loginRequest = new LoginRequest("user1", "user1");
