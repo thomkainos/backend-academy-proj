@@ -6,9 +6,11 @@ import org.example.daos.interfaces.IJobRoleDao;
 import org.example.exception.DatabaseConnectionException;
 import org.example.exception.JobRoleDaoException;
 import org.example.models.JobRole;
+import org.example.models.JobRoleDetailsResponse;
 import org.example.utils.DatabaseConnector;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -59,5 +61,41 @@ public class MySqIJobRoleDao implements IJobRoleDao {
                             + "unable to connect to database", e);
         }
         return jobRoles;
+    }
+
+    @Override
+    public JobRoleDetailsResponse getJobRoleById(final int id)
+            throws JobRoleDaoException {
+
+        try (Connection connection = databaseConnector.getConnection()) {
+            String query = "Select `role_id`, role_name, location, capability,"
+            + " band, closing_date, role_status, description,"
+            + " responsibilities, job_link FROM roles WHERE role_id = ?;";
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            statement.setInt(1, id);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                return new JobRoleDetailsResponse(
+                        resultSet.getInt("role_id"),
+                        resultSet.getString("role_name"),
+                        resultSet.getString("location"),
+                        resultSet.getString("capability"),
+                        resultSet.getString("band"),
+                        resultSet.getDate("closing_date"),
+                        resultSet.getInt("role_status"),
+                        resultSet.getString("description"),
+                        resultSet.getString("responsibilities"),
+                        resultSet.getString("job_link")
+                );
+
+            }
+            return new JobRoleDetailsResponse();
+
+        } catch (SQLException e) {
+            throw new JobRoleDaoException("SQLException: " + e.getMessage(), e);
+        }
     }
 }

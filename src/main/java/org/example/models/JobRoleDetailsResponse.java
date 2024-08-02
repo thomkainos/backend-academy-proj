@@ -2,14 +2,13 @@ package org.example.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Date;
 
-@AllArgsConstructor
-@Getter
-@Setter
-public class JobRole {
+@AllArgsConstructor @Getter @Setter @NoArgsConstructor
+public class JobRoleDetailsResponse {
     private int roleId;
     private String roleName;
     private String location;
@@ -17,4 +16,7 @@ public class JobRole {
     private String band;
     private Date closingDate;
     private int roleStatus;
+    private String description;
+    private String responsibilities;
+    private String jobLink;
 }
