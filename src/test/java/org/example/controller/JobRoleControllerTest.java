@@ -1,14 +1,12 @@
 package org.example.controller;
 
 import org.example.controllers.JobRoleController;
-import org.example.exception.DatabaseConnectionException;
 import org.example.exception.JobRoleDaoException;
 import org.example.models.JobRoleResponse;
 import org.example.services.JobRoleService;
 import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.core.Response;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
