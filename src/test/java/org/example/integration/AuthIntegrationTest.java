@@ -8,6 +8,12 @@ import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
 import org.example.JobRoleManagerApplication;
 import org.example.JobRoleManagerConfiguration;
 import org.example.models.LoginRequest;
+<<<<<<< HEAD
+=======
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+>>>>>>> 1b1d4d6 (ci: set up env variable for prod url)
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -15,16 +21,23 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+<<<<<<< HEAD
 import java.util.Base64;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+=======
+>>>>>>> 1b1d4d6 (ci: set up env variable for prod url)
 
 
 @ExtendWith(DropwizardExtensionsSupport.class)
 public class AuthIntegrationTest {
+<<<<<<< HEAD
     private final String apiUrl;
+=======
+    private String apiUrl;
+>>>>>>> 1b1d4d6 (ci: set up env variable for prod url)
 
     private static final DropwizardAppExtension<JobRoleManagerConfiguration> APP =
             new DropwizardAppExtension<>(JobRoleManagerApplication.class);
@@ -76,7 +89,11 @@ public class AuthIntegrationTest {
         LoginRequest invalidLoginRequest = new LoginRequest("invalid", "invalid");
 
         Response response = client
+<<<<<<< HEAD
                 .target(this.apiUrl + "auth/login")
+=======
+                .target("http://localhost:8080/api/auth/login")
+>>>>>>> 1b1d4d6 (ci: set up env variable for prod url)
                 .request(MediaType.APPLICATION_JSON)
                 .post(Entity.entity(invalidLoginRequest, MediaType.APPLICATION_JSON), Response.class);
 
