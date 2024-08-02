@@ -6,3 +6,5 @@ logging:
 
 swagger:
   resourcePackage: "org.example.controllers"
+
+API_URL: ${API_URL:-http://localhost:8080/api/}

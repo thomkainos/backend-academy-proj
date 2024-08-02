@@ -19,7 +19,7 @@ import javax.ws.rs.core.Response;
 
 @ExtendWith(DropwizardExtensionsSupport.class)
 public class AuthIntegrationTest {
-    private final String apiUrl;
+    private String apiUrl;
 
     private static final DropwizardAppExtension<JobRoleManagerConfiguration> APP =
             new DropwizardAppExtension<>(JobRoleManagerApplication.class);
