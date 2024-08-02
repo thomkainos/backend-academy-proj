@@ -6,5 +6,8 @@ CREATE TABLE IF NOT EXISTS roles
     capability   varchar(150),
     band         varchar(100),
     closing_date DATETIME,
-    role_status  tinyint default 1
+    role_status  tinyint default 1,
+    description varchar(5000),
+    responsibilities varchar(5000),
+    job_link varchar(5000)
 );
