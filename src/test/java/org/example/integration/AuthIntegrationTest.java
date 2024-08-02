@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(DropwizardExtensionsSupport.class)
 public class AuthIntegrationTest {
-    private String apiUrl;
+    private final String apiUrl;
 
     private static final DropwizardAppExtension<JobRoleManagerConfiguration> APP =
             new DropwizardAppExtension<>(JobRoleManagerApplication.class);
