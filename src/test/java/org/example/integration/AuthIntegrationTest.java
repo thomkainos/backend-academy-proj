@@ -22,7 +22,6 @@ import java.util.Base64;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-
 @ExtendWith(DropwizardExtensionsSupport.class)
 public class AuthIntegrationTest {
     private final String apiUrl;
