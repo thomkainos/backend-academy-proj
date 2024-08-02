@@ -28,7 +28,7 @@ public class MySqlAuthDao implements IAuthDao {
                 "SELECT `username`, `password`, `salt`,"
                         + " `sys_role_id` FROM `user`"
                         + " WHERE `username` = ?";
-        // FIX ME: should the statement commands be in the resources section?
+
         try (Connection connection = databaseConnector.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(
                     getUserCredQuery);
