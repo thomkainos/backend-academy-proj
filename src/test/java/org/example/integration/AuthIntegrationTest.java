@@ -52,7 +52,7 @@ public class AuthIntegrationTest {
         LoginRequest invalidLoginRequest = new LoginRequest("invalid", "invalid");
 
         Response response = client
-                .target("http://localhost:8080/api/auth/login")
+                .target(this.apiUrl + "auth/login")
                 .request(MediaType.APPLICATION_JSON)
                 .post(Entity.entity(invalidLoginRequest, MediaType.APPLICATION_JSON), Response.class);
 
