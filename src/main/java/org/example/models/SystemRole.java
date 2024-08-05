@@ -1,10 +1,8 @@
 package org.example.models;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
-@AllArgsConstructor @Getter @Setter
+@Getter
 public class SystemRole {
     int sysRoleId;
     String sysRoleName;
