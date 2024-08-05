@@ -62,6 +62,7 @@ How to start the application (locally)
     2. DB_PASSWORD
     3. DB_HOST
     4. DB_NAME
+    5. API_KEY 
 1. Run `mvn clean install` to build your application
 1. You can start application via:
     1. Terminal: `java -jar target/kainos-job-role-manager.jar server config.yml`
