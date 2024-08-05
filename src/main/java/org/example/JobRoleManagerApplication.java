@@ -5,7 +5,6 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.federecio.dropwizard.swagger.SwaggerBundle;
 import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
-import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.example.controllers.AuthController;
 import org.example.controllers.JobRoleController;
@@ -42,7 +41,8 @@ public class JobRoleManagerApplication extends
 
         Key jwtKey = getSigningKey();
         if (jwtKey == null) {
-            throw new RuntimeException("Please specify a JWT_KEY environment variable");
+            throw new RuntimeException(
+                    "Please specify a JWT_KEY environment variable");
         }
 
         environment.jersey().register(
