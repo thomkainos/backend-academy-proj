@@ -21,7 +21,7 @@ public class AuthService {
     public String login(final LoginRequest loginRequest) throws
             InvalidCredentialsException, AuthDaoException {
         User user = authDao.getUser(loginRequest);
-        if (user.getUsername() == null) {
+        if (user.getUsername() == null || user.getPassword() == null) {
             throw new InvalidCredentialsException();
         }
 
