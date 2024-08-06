@@ -9,7 +9,6 @@ import org.example.JobRoleManagerApplication;
 import org.example.JobRoleManagerConfiguration;
 import org.example.models.LoginRequest;
 import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import javax.ws.rs.client.Client;
@@ -37,8 +36,8 @@ public class AuthIntegrationTest {
             this.apiUrl = apiUrl;
         }
     }
-
-    @Test
+    // FIX ME: Remove disabled annotation when API is deployed so test can run w/ correct URL
+    @Disabled
     void login_shouldReturnJwtTokenWithProperTokenStructure_whenRequestContainsValidCredentials()
             throws JsonProcessingException {
         Client client = APP.client();
@@ -70,6 +69,7 @@ public class AuthIntegrationTest {
         assertEquals(payloadNode.get("iss").asText(), "Kainos Job Role Manager");
     }
 
+    // FIX ME: Remove disabled annotation when API is deployed so test can run w/ correct URL
     @Disabled
     void login_shouldReturnBadRequestCode_whenRequestContainsInvalidCredentials() {
         Client client = APP.client();
