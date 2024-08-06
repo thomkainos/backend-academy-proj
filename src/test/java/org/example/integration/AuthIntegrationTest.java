@@ -38,7 +38,7 @@ public class AuthIntegrationTest {
         }
     }
 
-    @Disabled
+    @Test
     void login_shouldReturnJwtTokenWithProperTokenStructure_whenRequestContainsValidCredentials()
             throws JsonProcessingException {
         Client client = APP.client();
