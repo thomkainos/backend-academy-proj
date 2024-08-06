@@ -31,7 +31,7 @@ public class AuthController {
             return Response.serverError().entity(e.getMessage()).build();
         } catch (InvalidCredentialsException e) {
             return Response
-                    .status(Response.Status.BAD_REQUEST)
+                    .status(Response.Status.UNAUTHORIZED)
                     .build();
         }
     }

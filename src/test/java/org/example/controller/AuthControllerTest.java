@@ -34,13 +34,13 @@ public class AuthControllerTest {
     }
 
     @Test
-    public void login_shouldReturn400Status_whenServiceThrowsInvalidCredentialsException()
+    public void login_shouldReturnUnauthorizedStatus_whenServiceThrowsInvalidCredentialsException()
             throws InvalidCredentialsException, AuthDaoException {
         when(authService.login(loginRequest)).thenThrow(
                 InvalidCredentialsException.class);
 
         Response response = authController.login(loginRequest);
-        assertEquals(400, response.getStatus());
+        assertEquals(401, response.getStatus());
     }
 
     @Test
