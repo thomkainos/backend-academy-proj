@@ -12,20 +12,21 @@ import org.example.models.User;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.Optional;
 
 @Getter @Setter @AllArgsConstructor
 public class AuthService {
     private final IAuthDao authDao;
     private final Key key;
 
-    public String login(final LoginRequest loginRequest) throws
-            InvalidCredentialsException, AuthDaoException {
-        User user = authDao.getUser(loginRequest);
-        if (user.getUsername() == null || user.getPassword() == null) {
+    public String login(final LoginRequest loginRequest) throws InvalidCredentialsException, AuthDaoException {
+        Optional<User> user = authDao.getUser(loginRequest); // change to optional user
+
+        if (user.isEmpty()) {
             throw new InvalidCredentialsException();
         }
 
-        return generateJwtToken(user);
+        return generateJwtToken(user.get());
     }
 
     private String generateJwtToken(final User user) {

@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class MySqlAuthDao implements IAuthDao {
     private DatabaseConnector databaseConnector;
@@ -21,13 +22,14 @@ public class MySqlAuthDao implements IAuthDao {
     }
 
     @Override
-    public User getUser(final LoginRequest loginRequest) throws
+    public Optional<User> getUser(final LoginRequest loginRequest) throws
             AuthDaoException {
         User user = new User();
         String getUserCredQuery =
                 "SELECT `username`, `password`, `salt`,"
                         + " `sys_role_id` FROM `user`"
                         + " WHERE `username` = ?";
+
         try (Connection connection = databaseConnector.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(
                     getUserCredQuery);
@@ -35,16 +37,15 @@ public class MySqlAuthDao implements IAuthDao {
             ResultSet resultSet = statement.executeQuery();
 
             if (!resultSet.next()) {
-                return user;
+                return Optional.empty();
             }
 
             String storedHash = resultSet.getString("password");
             if (!BCrypt.checkpw(loginRequest.getPassword(), storedHash)) {
-                return user;
+                return Optional.empty();
             }
 
             user.setUsername(loginRequest.getUsername());
-            user.setPassword(loginRequest.getPassword());
             user.setSysRoleId(resultSet.getInt("sys_role_id"));
         } catch (SQLException e) {
             throw new AuthDaoException(
@@ -52,6 +53,6 @@ public class MySqlAuthDao implements IAuthDao {
         } catch (DatabaseConnectionException e) {
             throw new AuthDaoException("Unable to connect to database", e);
         }
-        return user;
+        return Optional.of(user);
     }
 }
