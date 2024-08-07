@@ -31,7 +31,7 @@ public class AuthControllerTest {
         when(authService.login(loginRequest)).thenReturn(expLoginResponse);
 
         Response response = authController.login(loginRequest);
-        assertEquals(200, response.getStatus());
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
 
         LoginResponse actualLoginResponse = (LoginResponse) response.getEntity();
         assertEquals(jwtToken, actualLoginResponse.getToken());
