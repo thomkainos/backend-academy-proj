@@ -1,19 +1,16 @@
 package org.example.models;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Getter
+import javax.validation.constraints.NotNull;
+
+@Getter @NoArgsConstructor @AllArgsConstructor
 public class LoginRequest {
+    @NotNull
     String username;
-    String password;
 
-    @JsonCreator
-    public LoginRequest(
-            final @JsonProperty("username") String username,
-            final @JsonProperty("password") String password) {
-        this.username = username;
-        this.password = password;
-    }
+    @NotNull
+    String password;
 }
