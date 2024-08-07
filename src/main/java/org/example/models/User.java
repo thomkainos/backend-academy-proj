@@ -8,6 +8,5 @@ import lombok.Setter;
 @AllArgsConstructor @NoArgsConstructor @Getter @Setter
 public class User {
     String username;
-    String password;
     int sysRoleId;
 }

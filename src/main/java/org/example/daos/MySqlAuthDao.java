@@ -24,7 +24,6 @@ public class MySqlAuthDao implements IAuthDao {
     @Override
     public Optional<User> getUser(final LoginRequest loginRequest) throws
             AuthDaoException {
-        User user = new User();
         String getUserCredQuery =
                 "SELECT `username`, `password`, `salt`,"
                         + " `sys_role_id` FROM `user`"
@@ -45,14 +44,15 @@ public class MySqlAuthDao implements IAuthDao {
                 return Optional.empty();
             }
 
-            user.setUsername(loginRequest.getUsername());
-            user.setSysRoleId(resultSet.getInt("sys_role_id"));
+            return Optional.of(new User(
+                    loginRequest.getUsername(),
+                    resultSet.getInt("sys_role_id")
+            ));
         } catch (SQLException e) {
             throw new AuthDaoException(
                     "Unable to get information from database", e);
         } catch (DatabaseConnectionException e) {
             throw new AuthDaoException("Unable to connect to database", e);
         }
-        return Optional.of(user);
     }
 }

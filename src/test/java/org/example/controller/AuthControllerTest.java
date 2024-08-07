@@ -40,7 +40,7 @@ public class AuthControllerTest {
                 InvalidCredentialsException.class);
 
         Response response = authController.login(loginRequest);
-        assertEquals(401, response.getStatus());
+        assertEquals(Response.Status.UNAUTHORIZED.getStatusCode(), response.getStatus());
     }
 
     @Test
@@ -50,6 +50,6 @@ public class AuthControllerTest {
                 AuthDaoException.class);
 
         Response response = authController.login(loginRequest);
-        assertEquals(500, response.getStatus());
+        assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), response.getStatus());
     }
 }
