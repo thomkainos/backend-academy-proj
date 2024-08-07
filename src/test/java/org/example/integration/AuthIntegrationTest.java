@@ -29,12 +29,7 @@ public class AuthIntegrationTest {
             new DropwizardAppExtension<>(JobRoleManagerApplication.class);
 
     public AuthIntegrationTest() {
-        String apiUrl = System.getenv("API_URL");
-        if (apiUrl == null || apiUrl.isEmpty()) {
-            this.apiUrl = "http://localhost:8080/api/";
-        } else {
-            this.apiUrl = apiUrl;
-        }
+        this.apiUrl = getApiUrl();
     }
     // FIX ME: Remove disabled annotation when API is deployed so test can run w/ correct URL
     @Disabled
@@ -81,5 +76,11 @@ public class AuthIntegrationTest {
                 .post(Entity.entity(invalidLoginRequest, MediaType.APPLICATION_JSON), Response.class);
 
         assertEquals(Response.Status.UNAUTHORIZED.getStatusCode(), response.getStatus());
+    }
+
+    private String getApiUrl() {
+        return System.getenv("API_URL") != null && !System.getenv().isEmpty() ?
+                System.getenv("API_URL") :
+                "http://localhost:8080/api/";
     }
 }
