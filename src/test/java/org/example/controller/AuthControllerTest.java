@@ -4,6 +4,7 @@ import org.example.controllers.AuthController;
 import org.example.exception.AuthDaoException;
 import org.example.exception.InvalidCredentialsException;
 import org.example.models.LoginRequest;
+import org.example.models.LoginResponse;
 import org.example.services.AuthService;
 import org.junit.jupiter.api.Test;
 
@@ -24,13 +25,16 @@ public class AuthControllerTest {
     LoginRequest loginRequest = new LoginRequest("user1", "user1");
 
     @Test
-    public void login_shouldReturnJwtTokenInResponse_whenServiceReturnsJwtToken()
+    public void login_shouldReturnLoginResponseObject_whenServiceReturnsJwtToken()
             throws InvalidCredentialsException, AuthDaoException {
-        when(authService.login(loginRequest)).thenReturn(jwtToken);
+        LoginResponse expLoginResponse = new LoginResponse(jwtToken);
+        when(authService.login(loginRequest)).thenReturn(expLoginResponse);
 
         Response response = authController.login(loginRequest);
         assertEquals(200, response.getStatus());
-        assertEquals(jwtToken, response.getEntity());
+
+        LoginResponse actualLoginResponse = (LoginResponse) response.getEntity();
+        assertEquals(jwtToken, actualLoginResponse.getToken());
     }
 
     @Test

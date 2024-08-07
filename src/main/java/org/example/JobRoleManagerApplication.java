@@ -8,11 +8,11 @@ import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
 import io.jsonwebtoken.security.Keys;
 import org.example.controllers.AuthController;
 import org.example.controllers.JobRoleController;
+import org.example.daos.MySqIJobRoleDao;
 import org.example.daos.MySqlAuthDao;
 import org.example.services.AuthService;
-import org.example.utils.DatabaseConnector;
-import org.example.daos.MySqIJobRoleDao;
 import org.example.services.JobRoleService;
+import org.example.utils.DatabaseConnector;
 
 import java.security.Key;
 import java.util.Base64;

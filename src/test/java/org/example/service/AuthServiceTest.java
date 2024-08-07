@@ -8,6 +8,7 @@ import org.example.daos.interfaces.IAuthDao;
 import org.example.exception.AuthDaoException;
 import org.example.exception.InvalidCredentialsException;
 import org.example.models.LoginRequest;
+import org.example.models.LoginResponse;
 import org.example.models.User;
 import org.example.services.AuthService;
 import org.junit.jupiter.api.Test;
@@ -31,7 +32,7 @@ public class AuthServiceTest {
     AuthService authService = new AuthService(IAuthDao, key);
 
     @Test
-    public void login_shouldReturnJwtTokenWithProperStructure_whenAuthDaoReturnsPopulatedUserObject()
+    public void login_shouldReturnJwtTokenWithProperStructure_whenAuthDaoReturnsUserObject()
             throws AuthDaoException, InvalidCredentialsException,
             JsonProcessingException {
         LoginRequest loginRequest = new LoginRequest("user1", "user1");
@@ -43,7 +44,9 @@ public class AuthServiceTest {
 
         when(IAuthDao.getUser(loginRequest)).thenReturn(user);
 
-        String jwtTokenString = authService.login(loginRequest);
+        LoginResponse loginResponse = authService.login(loginRequest);
+        String jwtTokenString = loginResponse.getToken();
+
         assertNotNull(jwtTokenString);
 
         String splitByPeriodRegex = "\\.";
