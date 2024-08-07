@@ -7,6 +7,8 @@ import org.example.exception.InvalidCredentialsException;
 import org.example.models.LoginRequest;
 import org.example.services.AuthService;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -21,7 +23,7 @@ public class AuthController {
     @POST
     @Path("/login")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response login(final LoginRequest loginRequest) {
+    public Response login(@Valid final LoginRequest loginRequest) {
         try {
             return Response
                     .ok()
