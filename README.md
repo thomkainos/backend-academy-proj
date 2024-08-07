@@ -125,7 +125,9 @@ curl -X POST "http://localhost:8080/api/auth/login" -H "accept: application/json
     
     Response body:
 
-    eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjI2MTUxOTYsImV4cCI6MTcyMjYxNTE5NiwiUm9sZSI6MSwic3ViIjoidXNlcjEiLCJpc3MiOiJLYWlub3MgSm9iIFJvbGUgTWFuYWdlciJ9.Fm7Ty50S3DIKjNYeRva3_axkYsg2hc3p193BDTKS9_8
+    {
+        "token": eyJhbGciOiJIUzI1NiJ9...
+    }
 
 ## Test
 To run the unit tests:
