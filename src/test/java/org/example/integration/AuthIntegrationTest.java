@@ -3,6 +3,7 @@ package org.example.integration;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.dropwizard.testing.junit5.DropwizardAppExtension;
 import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
 import org.example.JobRoleManagerApplication;
@@ -76,6 +77,42 @@ public class AuthIntegrationTest {
                 .post(Entity.entity(invalidLoginRequest, MediaType.APPLICATION_JSON), Response.class);
 
         assertEquals(Response.Status.UNAUTHORIZED.getStatusCode(), response.getStatus());
+    }
+
+    // FIX ME: Remove disabled annotation when API is deployed so test can run w/ correct URL
+    @Disabled
+    void login_shouldReturnUnprocessableEntityCode_whenRequestContainsInvalidFormat() {
+        Client client = APP.client();
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode invalidJson = mapper.createObjectNode();
+
+        invalidJson.put("username", "user1");
+
+        Response response = client
+                .target(this.apiUrl + "auth/login")
+                .request(MediaType.APPLICATION_JSON)
+                .post(Entity.entity(invalidJson, MediaType.APPLICATION_JSON), Response.class);
+
+        assertEquals(422, response.getStatus());
+    }
+
+    // FIX ME: Remove disabled annotation when API is deployed so test can run w/ correct URL
+    @Disabled
+    void login_shouldReturnBadRequestCode_whenRequestContainsInvalidJsonFormat() {
+        Client client = APP.client();
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode invalidJson = mapper.createObjectNode();
+        ObjectNode randomJson = mapper.createObjectNode();
+
+        randomJson.put("random", "item");
+        invalidJson.set("username", randomJson);
+
+        Response response = client
+                .target(this.apiUrl + "auth/login")
+                .request(MediaType.APPLICATION_JSON)
+                .post(Entity.entity(invalidJson, MediaType.APPLICATION_JSON), Response.class);
+
+        assertEquals(400, response.getStatus());
     }
 
     private String getApiUrl() {

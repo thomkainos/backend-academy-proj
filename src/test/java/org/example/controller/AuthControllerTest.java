@@ -56,4 +56,5 @@ public class AuthControllerTest {
         Response response = authController.login(loginRequest);
         assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), response.getStatus());
     }
+
 }
