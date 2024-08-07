@@ -115,6 +115,8 @@ public class AuthIntegrationTest {
         assertEquals(400, response.getStatus());
     }
 
+
+
     private String getApiUrl() {
         return System.getenv("API_URL") != null && !System.getenv().isEmpty() ?
                 System.getenv("API_URL") :
