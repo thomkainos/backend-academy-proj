@@ -71,7 +71,7 @@ public class AuthIntegrationTest {
 
     // FIX ME: Remove disabled annotation when API is deployed so test can run w/ correct URL
     @Disabled
-    void login_shouldReturnBadUnauthorizedStatusCode_whenRequestContainsInvalidCredentials() {
+    void login_shouldReturnUnauthorizedStatusCode_whenRequestContainsInvalidCredentials() {
         Client client = APP.client();
         LoginRequest invalidLoginRequest = new LoginRequest("invalid", "invalid");
 
@@ -80,6 +80,6 @@ public class AuthIntegrationTest {
                 .request(MediaType.APPLICATION_JSON)
                 .post(Entity.entity(invalidLoginRequest, MediaType.APPLICATION_JSON), Response.class);
 
-        assertEquals(401, response.getStatus());
+        assertEquals(Response.Status.UNAUTHORIZED.getStatusCode(), response.getStatus());
     }
 }
