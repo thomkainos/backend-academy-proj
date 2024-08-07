@@ -16,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.security.Key;
 import java.util.Base64;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -34,7 +35,11 @@ public class AuthServiceTest {
             throws AuthDaoException, InvalidCredentialsException,
             JsonProcessingException {
         LoginRequest loginRequest = new LoginRequest("user1", "user1");
-        User user = new User("user1", "user1", 1);
+
+        Optional<User> user = Optional.of(new User(
+                "user1",
+                1
+        ));
 
         when(IAuthDao.getUser(loginRequest)).thenReturn(user);
 
@@ -64,7 +69,7 @@ public class AuthServiceTest {
     public void login_shouldThrowInvalidCredentialsException_whenAuthDaoReturnsEmptyUserObject()
             throws AuthDaoException {
         LoginRequest loginRequest = new LoginRequest("user1", "user1");
-        when(IAuthDao.getUser(loginRequest)).thenReturn(new User());
+        when(IAuthDao.getUser(loginRequest)).thenReturn(Optional.empty());
 
         assertThrows(InvalidCredentialsException.class, () -> authService.login(loginRequest));
     }

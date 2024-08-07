@@ -17,11 +17,13 @@ import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 public class MySqlAuthDaoTest {
@@ -47,15 +49,13 @@ public class MySqlAuthDaoTest {
     }
 
     @Test
-    public void getUser_shouldReturnEmptyUserObject_whenUsernameDoesNotExist() throws Exception {
+    public void getUser_shouldReturnEmptyUserObject_whenDatabaseReturnsNoRows() throws Exception {
         RunScript.execute(h2Connection, new FileReader("src/test/resources/auth/whenUsernameDoesNotExist.sql"));
 
         LoginRequest loginRequest = new LoginRequest("user1", "user1");
-        User user = IAuthDao.getUser(loginRequest);
+        Optional<User> user = IAuthDao.getUser(loginRequest);
 
-        assertNotNull(user);
-        assertNull(user.getUsername());
-        assertNull(user.getPassword());
+        assertTrue(user.isEmpty());
     }
 
     @Test
@@ -63,11 +63,9 @@ public class MySqlAuthDaoTest {
         RunScript.execute(h2Connection, new FileReader("src/test/resources/auth/whenPasswordIsInvalid.sql"));
 
         LoginRequest loginRequest = new LoginRequest("user1", "");
-        User user = IAuthDao.getUser(loginRequest);
+        Optional<User> user = IAuthDao.getUser(loginRequest);
 
-        assertNotNull(user);
-        assertNull(user.getUsername());
-        assertNull(user.getPassword());
+        assertTrue(user.isEmpty());
     }
 
     @Test
@@ -79,12 +77,9 @@ public class MySqlAuthDaoTest {
         int testSysRoleId = 1;
         LoginRequest loginRequest = new LoginRequest(testUsername, testPassword);
 
-        User user = IAuthDao.getUser(loginRequest);
+        Optional<User> user = IAuthDao.getUser(loginRequest);
 
-        assertNotNull(user);
-        assertEquals(testUsername, user.getUsername());
-        assertEquals(testPassword, user.getPassword());
-        assertEquals(testSysRoleId, user.getSysRoleId());
+        assertTrue(user.isPresent());
     }
 
     @Test
