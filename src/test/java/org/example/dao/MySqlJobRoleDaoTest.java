@@ -1,18 +1,5 @@
 package org.example.dao;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.when;
-
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Date;
-import java.time.LocalDate;
-import java.util.List;
 import org.example.daos.MySqIJobRoleDao;
 import org.example.daos.interfaces.IJobRoleDao;
 import org.example.exception.JobRoleDaoException;
@@ -24,6 +11,20 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.List;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.when;
 
 public class MySqlJobRoleDaoTest {
     private Connection h2Connection;
