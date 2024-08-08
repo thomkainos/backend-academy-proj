@@ -16,8 +16,8 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.Base64;
 
+import static org.example.utils.TestUtils.decodeBase64TokenSectionAndMapToJson;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -49,13 +49,8 @@ public class AuthIntegrationTest {
         String splitByPeriodRegex = "\\.";
         String[] tokenSections = response.split(splitByPeriodRegex);
 
-        Base64.Decoder decoder = Base64.getDecoder();
-        String headerAsStr = new String(decoder.decode(tokenSections[0]));
-        String payloadAsStr = new String(decoder.decode(tokenSections[1]));
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode headerNode = objectMapper.readTree(headerAsStr);
-        JsonNode payloadNode = objectMapper.readTree(payloadAsStr);
+        JsonNode headerNode = decodeBase64TokenSectionAndMapToJson(tokenSections[0]);
+        JsonNode payloadNode = decodeBase64TokenSectionAndMapToJson(tokenSections[1]);
 
         assertEquals("HS256", headerNode.get("alg").asText());
         assertNotNull(payloadNode.get("iss").asText());
@@ -98,7 +93,7 @@ public class AuthIntegrationTest {
 
     // FIX ME: Remove disabled annotation when API is deployed so test can run w/ correct URL
     @Disabled
-    void login_shouldReturnBadRequestCode_whenRequestContainsInvalidJsonFormat() {
+    void login_shouldReturnBadRequestCode_whenRequestContainsInvalidLoginRequestFormat() {
         Client client = APP.client();
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode invalidJson = mapper.createObjectNode();
@@ -115,7 +110,23 @@ public class AuthIntegrationTest {
         assertEquals(400, response.getStatus());
     }
 
+    // FIX ME: Remove disabled annotation when API is deployed so test can run w/ correct URL
+    @Disabled
+    void login_shouldReturnBadRequestCode_whenRequestContainsInvalidRequest() {
+        Client client = APP.client();
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode invalidJson = mapper.createObjectNode();
+        ObjectNode randomJson = mapper.createObjectNode();
 
+        randomJson.put("random", "item");
+
+        Response response = client
+                .target(this.apiUrl + "auth/login")
+                .request(MediaType.APPLICATION_JSON)
+                .post(Entity.entity(invalidJson, MediaType.APPLICATION_JSON), Response.class);
+
+        assertEquals(400, response.getStatus());
+    }
 
     private String getApiUrl() {
         return System.getenv("API_URL") != null && !System.getenv().isEmpty() ?

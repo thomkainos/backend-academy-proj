@@ -62,12 +62,15 @@ How to start the application (locally)
     2. DB_PASSWORD
     3. DB_HOST
     4. DB_NAME
-    5. API_KEY 
+    5. JWT_KEY
 1. Run `mvn clean install` to build your application
 1. You can start application via:
     1. Terminal: `java -jar target/kainos-job-role-manager.jar server config.yml`
     2. IDE: Edit run configuration -> Add `server` to program arguments -> Run
 1. To check that your application is running enter url `http://localhost:8080/api/job-roles`
+
+**Note**: add all of the above environment variables to your Github Secrets for passing arguments to the
+production environment.
 
 ## Endpoints
 ### Get list of open job roles

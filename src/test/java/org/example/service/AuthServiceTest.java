@@ -2,7 +2,6 @@ package org.example.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import org.example.daos.interfaces.IAuthDao;
 import org.example.exception.AuthDaoException;
@@ -16,9 +15,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.security.Key;
-import java.util.Base64;
 import java.util.Optional;
 
+import static org.example.utils.TestUtils.decodeBase64TokenSectionAndMapToJson;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -52,13 +51,8 @@ public class AuthServiceTest {
         String splitByPeriodRegex = "\\.";
         String[] tokenSections = jwtTokenString.split(splitByPeriodRegex);
 
-        Base64.Decoder decoder = Base64.getDecoder();
-        String headerAsStr = new String(decoder.decode(tokenSections[0]));
-        String payloadAsStr = new String(decoder.decode(tokenSections[1]));
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode headerNode = objectMapper.readTree(headerAsStr);
-        JsonNode payloadNode = objectMapper.readTree(payloadAsStr);
+        JsonNode headerNode = decodeBase64TokenSectionAndMapToJson(tokenSections[0]);
+        JsonNode payloadNode = decodeBase64TokenSectionAndMapToJson(tokenSections[1]);
 
         assertEquals("HS256", headerNode.get("alg").asText());
         assertNotNull(payloadNode.get("iss").asText());

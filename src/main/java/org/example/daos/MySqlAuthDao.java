@@ -44,10 +44,11 @@ public class MySqlAuthDao implements IAuthDao {
                 return Optional.empty();
             }
 
-            return Optional.of(new User(
+            User user = new User(
                     loginRequest.getUsername(),
-                    resultSet.getInt("sys_role_id")
-            ));
+                    resultSet.getInt("sys_role_id"));
+
+            return Optional.of(user);
         } catch (SQLException e) {
             throw new AuthDaoException(
                     "Unable to get information from database", e);
