@@ -44,7 +44,12 @@ public class JobRoleManagerApplication extends Application<JobRoleManagerConfigu
 	}
 
 	private Key getSigningKey() {
-		String signingKeyBase64 = "InNvbWUtcmVhbGx5LWxvbmctdGVzdC1rZXktdGhhdC1pcy1zdXBlci1zZWNyZXQi";
+		String signingKeyBase64;
+		try {
+			signingKeyBase64 = System.getenv().get("JWT_KEY");
+		} catch (NullPointerException e) {
+			throw new RuntimeException("JWT_KEY not set");
+		}
 
 		byte[] keyInBytes = Base64.getDecoder().decode(signingKeyBase64);
 
